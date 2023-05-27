@@ -10,6 +10,8 @@ public class CharacterControl : MonoBehaviour
     public CharacterController controller;
     [SerializeField] public float speed = 10f;
 
+	private bool onground = false;
+
     Vector3 mousePos, lookPos;
 
 	private void Start()
@@ -33,6 +35,8 @@ public class CharacterControl : MonoBehaviour
 		lookDir.y = 0;
 
 		transform.LookAt(transform.position + lookDir, Vector3.up);
+
+		Debug.Log("onground " + onground);
 	}
 
 	private void FixedUpdate()
@@ -42,11 +46,20 @@ public class CharacterControl : MonoBehaviour
 		float vertical = Input.GetAxisRaw("Vertical");
 		Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-		if (direction.magnitude >= 0.1f)
+		if (direction.magnitude >= 0.1f && onground)
 		{
 			rb.AddForce(direction * speed, ForceMode.Force);
 		}
 
-		Debug.Log(direction.magnitude);
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		onground = true;
+	}
+
+	private void OnCollisionExit(Collision collision)
+	{
+		onground = false;
 	}
 }
