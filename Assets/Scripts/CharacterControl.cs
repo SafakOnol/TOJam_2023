@@ -8,6 +8,7 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private GameObject Player;
 	[SerializeField] private Rigidbody rb;
     [SerializeField] public float speed = 10f;
+    [SerializeField] public float jumpForce = 10f;
 
 	private bool onground = false;
 
@@ -23,17 +24,23 @@ public class CharacterControl : MonoBehaviour
     {
 		// mouse look character using raycast
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit;
+		RaycastHit hitGround;
 
-		if (Physics.Raycast(ray, out hit, 100))
+		if (Physics.Raycast(ray, out hitGround, 100))
 		{
-			lookPos = hit.point;
+			lookPos = hitGround.point;
 		}
 
 		Vector3 lookDir = lookPos - transform.position;
 		lookDir.y = 0;
 
 		transform.LookAt(transform.position + lookDir, Vector3.up);
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Debug.Log("space pressed");
+			Jump();
+		}
 
 	}
 
@@ -62,5 +69,13 @@ public class CharacterControl : MonoBehaviour
 	private void OnCollisionExit(UnityEngine.Collision collision)
 	{
 		onground = false;
+	}
+
+	private void Jump()
+	{
+		if (onground)
+		{
+			rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+		}
 	}
 }
