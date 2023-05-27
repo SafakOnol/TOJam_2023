@@ -54,12 +54,12 @@ public class CharacterControl : MonoBehaviour
 
 	}
 
-	private void OnCollisionEnter(Collision collision)
+	private void OnCollisionEnter(UnityEngine.Collision collision)
 	{
 		onground = true;
 	}
 
-	private void OnCollisionExit(Collision collision)
+	private void OnCollisionExit(UnityEngine.Collision collision)
 	{
 		onground = false;
 	}
