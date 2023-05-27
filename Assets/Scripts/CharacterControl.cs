@@ -7,7 +7,6 @@ public class CharacterControl : MonoBehaviour
 {
     [SerializeField] private GameObject Player;
 	[SerializeField] private Rigidbody rb;
-    public CharacterController controller;
     [SerializeField] public float speed = 10f;
 
 	private bool onground = false;
@@ -36,7 +35,6 @@ public class CharacterControl : MonoBehaviour
 
 		transform.LookAt(transform.position + lookDir, Vector3.up);
 
-		Debug.Log("onground " + onground);
 	}
 
 	private void FixedUpdate()
@@ -49,6 +47,9 @@ public class CharacterControl : MonoBehaviour
 		if (direction.magnitude >= 0.1f && onground)
 		{
 			rb.AddForce(direction * speed, ForceMode.Force);
+		}
+		else if(!onground){
+			rb.AddForce(direction * speed / 5, ForceMode.Force);
 		}
 
 	}
