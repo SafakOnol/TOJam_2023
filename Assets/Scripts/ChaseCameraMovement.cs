@@ -6,16 +6,21 @@ public class ChaseCameraMovement : MonoBehaviour
 {
 	[SerializeField] private Transform PlayersTransform;
 	[SerializeField] private float smoothTime;
+	[SerializeField] private float angleToChangeCamRotation;
 	private Vector3 _offset;
 	private Vector3 _currentVelocity = Vector3.zero;
 
 	private void Awake()
 	{
-		_offset = new Vector3(0, 8, 0);
+		// we set offset here manually
+		//_offset = new Vector3(0, 5, -5);
+
+		// or we can set the difference as offset
+		_offset = transform.position - PlayersTransform.position;
 		transform.position = PlayersTransform.position + _offset;
 
 		// Rotate the cube by converting the angles into a quaternion.
-		Quaternion target = Quaternion.Euler(90, 0, 0);
+		Quaternion target = Quaternion.Euler(angleToChangeCamRotation, 0, 0);
 
 		// Dampen towards the target rotation
 		transform.rotation = Quaternion.Slerp(transform.rotation, target, 1);
