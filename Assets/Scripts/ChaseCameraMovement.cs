@@ -30,7 +30,5 @@ public class ChaseCameraMovement : MonoBehaviour
 	{
 		Vector3 targetPosition = PlayersTransform.position + _offset;
 		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _currentVelocity, smoothTime);
-
-
 	}
 }
