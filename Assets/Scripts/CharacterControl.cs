@@ -63,20 +63,13 @@ public class CharacterControl : MonoBehaviour
 					{
 						pickUp = true;
 						boxToPickUp = hit.transform.gameObject;
+						boxToPickUp.GetComponent<CargoBox>().pickedUp = true;
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
 						// change position of the box here to hold point
 						boxToPickUp.transform.position = boxHoldPoint.position;
 						boxToPickUp.transform.parent = transform;
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 					}
-					/*else
-					{
-						pickUp = false;
-						boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
-						boxToPickUp.transform.parent = null;
-						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
-					}*/
 
 					Debug.Log("tekrar tekrar calisiyor mu");
 
@@ -94,6 +87,7 @@ public class CharacterControl : MonoBehaviour
 			if (pickUp)
 			{
 				pickUp = false;
+				boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
 				boxToPickUp.transform.parent = null;
 				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -110,8 +104,9 @@ public class CharacterControl : MonoBehaviour
 		// mouse look character using raycast
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hitGround;
+		LayerMask layerGorund = 1<<6;
 
-		if (Physics.Raycast(ray, out hitGround, 100))
+		if (Physics.Raycast(ray, out hitGround, 100, layerGorund))
 		{
 			lookPos = hitGround.point;
 		}
