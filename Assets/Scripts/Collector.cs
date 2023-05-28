@@ -6,12 +6,12 @@ public class Collector : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other != null) 
+        if (other != null)
         {
             ICollectible collectible = other.GetComponent<ICollectible>();
             collectible?.Collect();
         }
-        
+
     }
 
 }

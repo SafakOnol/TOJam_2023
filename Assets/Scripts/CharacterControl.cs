@@ -50,7 +50,7 @@ public class CharacterControl : MonoBehaviour
 
 		if (Physics.Raycast(rayBoxCheck, out hit, raycastRange))
 		{
-			if (hit.transform.gameObject.tag == "Box")
+			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
 			{
 				// The light color that changes when ray hits a box
 				lightToChange.color = Color.green;

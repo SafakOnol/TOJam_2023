@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2635353984499475707}
   - component: {fileID: 2635353984499475711}
   - component: {fileID: 2635353984499475696}
+  - component: {fileID: 2201563096528091780}
   m_Layer: 0
   m_Name: CargoBox
   m_TagString: Collectible01
@@ -97,7 +98,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.3, y: 1.3, z: 1.3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2635353984499475711
 MonoBehaviour:
@@ -127,3 +128,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &2201563096528091780
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635353984499475706}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3462005, y: 1.3462007, z: 1.2713964}
+  m_Center: {x: 0, y: 0, z: 0}
