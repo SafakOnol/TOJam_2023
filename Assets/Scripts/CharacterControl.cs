@@ -53,6 +53,7 @@ public class CharacterControl : MonoBehaviour
 
 		if (Physics.Raycast(rayBoxCheck, out hit, raycastRange))
 		{
+			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
 			Debug.Log("neye vurii " + hit.transform.name);
 			Debug.Log("neye vurii " + hit.point);
 			if (hit.transform.gameObject.tag == "Collectible01")

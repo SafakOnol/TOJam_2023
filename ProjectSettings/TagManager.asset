@@ -7,7 +7,7 @@ TagManager:
   - Collectible01
   - HUD
   - Ground
-  - Box
+  - DummyBox
   layers:
   - Default
   - TransparentFX

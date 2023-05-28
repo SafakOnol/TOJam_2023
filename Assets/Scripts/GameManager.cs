@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 public enum GameState
 {
     NullState,
-    Intro,
     MainMenu,
+    Intro,
     Level01,
     Level01_Special,
     Level01_Post,
@@ -77,22 +77,26 @@ public class GameManager : MonoBehaviour
             case GameState.NullState:
                 // 
                 break;
-            case GameState.Intro:
-                // 
-                break;
             case GameState.MainMenu:     
                 // load main menu
                 break;
+            case GameState.Intro:
+                // Train movement
+                // Camera work
+                // 
+                break;
             case GameState.Level01:
-                // set countdown timer
+                // set main objective countdown timer
                 // game functions
                 break;
             case GameState.Level01_Special:
-                // set countdown timer
+                // set special objective countdown timer
                 // game functions
                 break;
             case GameState.Level01_Post:
-                // set countdown timer
+                // camera movement
+                // ui
+                // switch next scene -> this is for later!
                 // game functions
                 break;
             case GameState.Win:
@@ -126,12 +130,14 @@ public class GameManager : MonoBehaviour
     public void CollectorManager_OnAllCargoBoxesCollected()
     {
         Debug.Log("Main Objective Completed!");
-        // TODO: set state ...
+        SetGameState(GameState.Level01_Special);
+        // TODO: set state ...        
     }
 
     public void CollectorManager_OnAllValuablesBoxCollected()
     {
         Debug.Log("Special Objective Completed!");
+        SetGameState(GameState.Win);
         // TODO: set state ...
     }
 

@@ -12,7 +12,8 @@ public class CollectorManager : MonoBehaviour
     int cargoBoxCount = 0;
     int valuablesBoxCount = 0;
 
-    [SerializeField] private int BoxCountToCollect;
+    [SerializeField] private int CargoBoxCountToCollect;
+    [SerializeField] private int ValuablesBoxCountToCollect;
 
     public static event Action OnAllCargoBoxesCollected;
     public static event Action OnAllValuablesBoxCollected;
@@ -32,23 +33,28 @@ public class CollectorManager : MonoBehaviour
 
     private void Awake()
     {
-        objectiveText.text = $"Objective: {BoxCountToCollect}";
+        objectiveText.text = $"Objective: {CargoBoxCountToCollect}";
+        cargoBoxText.text = $"Cargo Boxes Secured: {cargoBoxCount} / {CargoBoxCountToCollect}";
+        valuablesBoxText.text = $"Valuables Box Secured: {valuablesBoxCount} / {ValuablesBoxCountToCollect}";
     }
 
     public void IncrementCargoBoxCount()
     {
         cargoBoxCount++;
-        cargoBoxText.text = $"Cargo Boxes Secured: {cargoBoxCount}";
-        if (cargoBoxCount == BoxCountToCollect)
-        {
-            OnAllCargoBoxesCollected?.Invoke();
-        }
+        cargoBoxText.text = $"Cargo Boxes Secured: {cargoBoxCount} / {CargoBoxCountToCollect}";
+        if (cargoBoxCount == CargoBoxCountToCollect) OnAllCargoBoxesCollected?.Invoke();
     }
 
     public void IncrementValuablesBoxCount()
     {
         valuablesBoxCount++;
-        valuablesBoxText.text = $"Valuables Box Secured!";
-        if (valuablesBoxCount == 1) OnAllValuablesBoxCollected?.Invoke();
+        valuablesBoxText.text = $"Valuables Box Secured: {valuablesBoxCount} / {ValuablesBoxCountToCollect}";
+        if (valuablesBoxCount == ValuablesBoxCountToCollect) OnAllValuablesBoxCollected?.Invoke();
     }
+
+    public void ChangeGameState()
+    {
+
+    }
+
 }
