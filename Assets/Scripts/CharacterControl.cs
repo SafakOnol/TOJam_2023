@@ -23,7 +23,7 @@ public class CharacterControl : MonoBehaviour
 
     Vector3 lookPos;
 
-	Vector3 offsetRayPos = new Vector3(0, .9f, 0);
+	Vector3 offsetRayPos = new Vector3(0, .65f, 0);
 
 	private void Start()
 	{
@@ -45,12 +45,15 @@ public class CharacterControl : MonoBehaviour
 		lightToChange.color = Color.red;
 
 		
-		Ray rayBoxCheck = new Ray(transform.position, transform.forward);
+		Ray rayBoxCheck = new Ray(transform.position + new Vector3(0,-.3f,0), transform.forward);
 		RaycastHit hit;
 
 		if (Physics.Raycast(rayBoxCheck, out hit, raycastRange))
 		{
 			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
+			Debug.Log("neye vurii " + hit.transform.name);
+			Debug.Log("neye vurii " + hit.point);
+			if (hit.transform.gameObject.tag == "Collectible01")
 			{
 				// The light color that changes when ray hits a box
 				lightToChange.color = Color.green;
@@ -61,19 +64,12 @@ public class CharacterControl : MonoBehaviour
 					{
 						pickUp = true;
 						boxToPickUp = hit.transform.gameObject;
+						boxToPickUp.GetComponent<CargoBox>().pickedUp = true;
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
 						// change position of the box here to hold point
 						boxToPickUp.transform.position = boxHoldPoint.position;
 						boxToPickUp.transform.parent = transform;
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-					}
-					else
-					{
-						pickUp = false;
-						boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
-						boxToPickUp.transform.parent = null;
-						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 					}
 
 					Debug.Log("tekrar tekrar calisiyor mu");
@@ -83,6 +79,20 @@ public class CharacterControl : MonoBehaviour
 
 				// When the ray hit the box code can written here
 
+			}
+
+		}
+
+		if (Input.GetKeyDown(KeyCode.Mouse1))
+		{
+			if (pickUp)
+			{
+				pickUp = false;
+				boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
+				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
+				boxToPickUp.transform.parent = null;
+				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 			}
 		}
 
@@ -95,8 +105,9 @@ public class CharacterControl : MonoBehaviour
 		// mouse look character using raycast
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hitGround;
+		LayerMask layerGorund = 1<<6;
 
-		if (Physics.Raycast(ray, out hitGround, 100))
+		if (Physics.Raycast(ray, out hitGround, 100, layerGorund))
 		{
 			lookPos = hitGround.point;
 		}
@@ -106,7 +117,6 @@ public class CharacterControl : MonoBehaviour
 
 		transform.LookAt(transform.position + lookDir, Vector3.up);
 		// mouse look ends here
-
 
 
 		// Jump code
