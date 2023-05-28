@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
@@ -8,10 +9,21 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private GameObject Player;
 	[SerializeField] private Rigidbody rb;
     [SerializeField] public float speed = 10f;
+    [SerializeField] public float jumpForce = 10f;
 
-	private bool onground = false;
+	[SerializeField] Light lightToChange;
+	[SerializeField] private int raycastRange = 10;
 
-    Vector3 mousePos, lookPos;
+	[SerializeField] private Transform boxHoldPoint;
+
+	private GameObject boxToPickUp;
+
+	private bool	onground = false,
+					pickUp = false;
+
+    Vector3 lookPos;
+
+	Vector3 offsetRayPos = new Vector3(0, .9f, 0);
 
 	private void Start()
 	{
@@ -21,19 +33,87 @@ public class CharacterControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-		// mouse look character using raycast
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		// Check onground with raycast variables
+		Vector3 rayStartPos = transform.position - offsetRayPos;
+		Ray groundCheckRay = new Ray(rayStartPos, -transform.up);
+
+		// Check onground with raycast
+		OnGroundCheck(groundCheckRay);
+
+		// box check starts here
+		// The light color on standby
+		lightToChange.color = Color.red;
+
+		
+		Ray rayBoxCheck = new Ray(transform.position, transform.forward);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, 100))
+		if (Physics.Raycast(rayBoxCheck, out hit, raycastRange))
 		{
-			lookPos = hit.point;
+			if (hit.transform.gameObject.tag == "Box")
+			{
+				// The light color that changes when ray hits a box
+				lightToChange.color = Color.green;
+
+				if (Input.GetKeyDown(KeyCode.Mouse0))
+				{
+					if(!pickUp)
+					{
+						pickUp = true;
+						boxToPickUp = hit.transform.gameObject;
+						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
+						// change position of the box here to hold point
+						boxToPickUp.transform.position = boxHoldPoint.position;
+						boxToPickUp.transform.parent = transform;
+						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+					}
+					else
+					{
+						pickUp = false;
+						boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
+						boxToPickUp.transform.parent = null;
+						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+					}
+
+					Debug.Log("tekrar tekrar calisiyor mu");
+
+					Debug.Log("box budur : " + boxToPickUp.name);
+				}
+
+				// When the ray hit the box code can written here
+
+			}
+		}
+
+		// box check ends here
+
+		// box to hold movement script
+		// ends here
+
+
+		// mouse look character using raycast
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hitGround;
+
+		if (Physics.Raycast(ray, out hitGround, 100))
+		{
+			lookPos = hitGround.point;
 		}
 
 		Vector3 lookDir = lookPos - transform.position;
 		lookDir.y = 0;
 
 		transform.LookAt(transform.position + lookDir, Vector3.up);
+		// mouse look ends here
+
+
+
+		// Jump code
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Jump();
+		}
 
 	}
 
@@ -54,13 +134,25 @@ public class CharacterControl : MonoBehaviour
 
 	}
 
-	private void OnCollisionEnter(UnityEngine.Collision collision)
+	private void Jump()
 	{
-		onground = true;
+		if (onground)
+		{
+			rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+		}
 	}
 
-	private void OnCollisionExit(UnityEngine.Collision collision)
+	private void OnGroundCheck(Ray groundCheckRay)
 	{
-		onground = false;
+		RaycastHit checkGround;
+
+		if (Physics.Raycast(groundCheckRay, out checkGround, .9f))
+		{
+			onground = true;
+		}
+		else
+		{
+			onground = false;
+		}
 	}
 }
