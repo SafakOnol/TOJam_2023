@@ -54,8 +54,6 @@ public class CharacterControl : MonoBehaviour
 		if (Physics.Raycast(rayBoxCheck, out hit, raycastRange))
 		{
 			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
-			Debug.Log("neye vurii " + hit.transform.name);
-			Debug.Log("neye vurii " + hit.point);
 			if (hit.transform.gameObject.tag == "Collectible01")
 			{
 				// The light color that changes when ray hits a box
@@ -68,6 +66,9 @@ public class CharacterControl : MonoBehaviour
 						pickUp = true;
 						pickupText.text = "Picked up";	// on screen test 
 						boxToPickUp = hit.transform.gameObject;
+						CargoBox boxScript = boxToPickUp.GetComponent<CargoBox>();
+							// sound for pickup
+							boxScript.PlayChoosenSound(boxScript.boxPickedUp);
 						boxToPickUp.GetComponent<CargoBox>().pickedUp = true;
 						boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);						
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
@@ -76,10 +77,6 @@ public class CharacterControl : MonoBehaviour
 						boxToPickUp.transform.parent = transform;
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 					}
-
-					Debug.Log("tekrar tekrar calisiyor mu");
-
-					Debug.Log("box budur : " + boxToPickUp.name);
 				}
 
 				// When the ray hit the box code can written here
@@ -94,6 +91,9 @@ public class CharacterControl : MonoBehaviour
 			{
 				pickUp = false;
 				pickupText.text = "Not Picked up";  // on screen test 
+				CargoBox boxScript = boxToPickUp.GetComponent<CargoBox>();
+				// sound for pickup
+				boxScript.PlayChoosenSound(boxScript.boxDropped);
 				boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
 				boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
@@ -132,10 +132,23 @@ public class CharacterControl : MonoBehaviour
 			Jump();
 		}
 
+		// Run code
+		if (Input.GetKeyDown(KeyCode.LeftShift))
+		{
+			speed = 350 * 1.5f;
+		}
+		if (Input.GetKeyUp(KeyCode.LeftShift))
+		{
+			speed = 350;
+		}
+
 	}
 
 	private void FixedUpdate()
 	{
+		// Run code
+
+
 		// Controls
 		float horizontal = Input.GetAxisRaw("Horizontal");
 		float vertical = Input.GetAxisRaw("Vertical");
