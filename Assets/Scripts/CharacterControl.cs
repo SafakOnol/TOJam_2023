@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using TMPro;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
@@ -15,6 +16,8 @@ public class CharacterControl : MonoBehaviour
 	[SerializeField] private int raycastRange = 10;
 
 	[SerializeField] private Transform boxHoldPoint;
+	public TextMeshProUGUI pickupText;
+	public TextMeshProUGUI ongroundText;
 
 	private GameObject boxToPickUp;
 
@@ -63,6 +66,7 @@ public class CharacterControl : MonoBehaviour
 					if(!pickUp)
 					{
 						pickUp = true;
+						pickupText.text = "Picked up";	// on screen test 
 						boxToPickUp = hit.transform.gameObject;
 						boxToPickUp.GetComponent<CargoBox>().pickedUp = true;
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
@@ -88,6 +92,7 @@ public class CharacterControl : MonoBehaviour
 			if (pickUp)
 			{
 				pickUp = false;
+				pickupText.text = "Not Picked up";  // on screen test 
 				boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
 				boxToPickUp.transform.parent = null;
@@ -159,10 +164,12 @@ public class CharacterControl : MonoBehaviour
 		if (Physics.Raycast(groundCheckRay, out checkGround, .9f))
 		{
 			onground = true;
+			ongroundText.text = "grounded";
 		}
 		else
 		{
 			onground = false;
+			ongroundText.text = "air";
 		}
 	}
 }
