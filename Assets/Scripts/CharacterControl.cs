@@ -68,6 +68,7 @@ public class CharacterControl : MonoBehaviour
 						pickupText.text = "Picked up";	// on screen test 
 						boxToPickUp = hit.transform.gameObject;
 						boxToPickUp.GetComponent<CargoBox>().pickedUp = true;
+						boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);						
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
 						// change position of the box here to hold point
 						boxToPickUp.transform.position = boxHoldPoint.position;
@@ -93,6 +94,7 @@ public class CharacterControl : MonoBehaviour
 				pickUp = false;
 				pickupText.text = "Not Picked up";  // on screen test 
 				boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
+				boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
 				boxToPickUp.transform.parent = null;
 				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;

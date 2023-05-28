@@ -11,7 +11,9 @@ public class CargoBox : MonoBehaviour, ICollectible
     public int damageCounter;   // damagecounter can be used on UI
     public string condition = "Good";
     public bool pickedUp = false;
+    public bool vulnerability = false;
 	public TextMeshProUGUI BoxDamageText;
+	public TextMeshProUGUI VulnText;
 
 
 	public void Collect()
@@ -24,8 +26,7 @@ public class CargoBox : MonoBehaviour, ICollectible
 
 	private void OnCollisionEnter(UnityEngine.Collision collision)
 	{
-        UnityEngine.Debug.Log("collied obejct is "+ collision.transform.tag);
-        if(pickedUp)
+        if(pickedUp && vulnerability)
         {
 			damageCounter++;
 			// box damage code goes here
@@ -34,6 +35,13 @@ public class CargoBox : MonoBehaviour, ICollectible
 		}
 
 		BoxDamageText.text = condition;
+	}
+
+    private void DamageToBox()
+    {
+        vulnerability = true;
+		VulnText.text = vulnerability.ToString();
+
 	}
 
 }
