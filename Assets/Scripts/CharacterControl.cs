@@ -56,7 +56,7 @@ public class CharacterControl : MonoBehaviour
 			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
 			Debug.Log("neye vurii " + hit.transform.name);
 			Debug.Log("neye vurii " + hit.point);
-			if (hit.transform.gameObject.tag == "Collectible01")
+			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
 			{
 				// The light color that changes when ray hits a box
 				lightToChange.color = Color.green;

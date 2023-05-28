@@ -10,22 +10,32 @@ public class Door : MonoBehaviour
     [SerializeField] private Vector3 SlideDirection = Vector3.back;
     [SerializeField] private float SlideAmount = 1.9f;
 
-    private Vector3 StartRotation;
     private Vector3 StartPosition;
-    private Vector3 Forward;
 
     private Coroutine AnimationCoroutine;
 
     private void Awake()
     {
-        StartRotation = transform.rotation.eulerAngles;
-        // Since "Forward" actually is pointing into the door frame, choose a direction to think about as "forward" 
-        Forward = transform.right;
         StartPosition = transform.position;
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnState_Level01_Special += GameManager_OnState_Level01_Special;
+    }
 
-    public void Open(Vector3 UserPosition)
+    private void OnDisable()
+    {
+        GameManager.OnState_Level01_Special -= GameManager_OnState_Level01_Special;
+    }
+
+    private void GameManager_OnState_Level01_Special()
+    {
+        Open();
+        //throw new System.NotImplementedException();
+    }
+
+    public void Open()
     {
         if (!IsOpen)
         {
@@ -33,7 +43,11 @@ public class Door : MonoBehaviour
             {
                 StopCoroutine(AnimationCoroutine);
             }
+            else
+            {
                 AnimationCoroutine = StartCoroutine(SlideOpen());
+            }
+            
         }
     }
 
@@ -60,7 +74,7 @@ public class Door : MonoBehaviour
             {
                 StopCoroutine(AnimationCoroutine);
             }
-            
+
             AnimationCoroutine = StartCoroutine(SlideClose());
         }
     }
