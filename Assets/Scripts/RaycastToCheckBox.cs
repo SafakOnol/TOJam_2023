@@ -5,13 +5,13 @@ using UnityEngine;
 public class RaycastToCheckBox : MonoBehaviour
 {
     LayerMask layerMask;
-    [SerializeField] Light light;
+    [SerializeField] Light lightToChange;
     [SerializeField] private int raycastRange = 10;
     // Update is called once per frame
     void Update()
     {
         // The light color on standby
-        light.color = Color.red;
+        lightToChange.color = Color.red;
 
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
@@ -22,7 +22,7 @@ public class RaycastToCheckBox : MonoBehaviour
 			{
                 // When the ray hit the box code can written here
                 // The light color that changes when ray hits a box
-                light.color = Color.green;
+                lightToChange.color = Color.green;
 			}
 		}
     }

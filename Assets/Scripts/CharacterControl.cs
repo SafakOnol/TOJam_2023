@@ -23,7 +23,7 @@ public class CharacterControl : MonoBehaviour
 
     Vector3 lookPos;
 
-	Vector3 offsetRayPos = new Vector3(0, .9f, 0);
+	Vector3 offsetRayPos = new Vector3(0, .65f, 0);
 
 	private void Start()
 	{
@@ -45,12 +45,14 @@ public class CharacterControl : MonoBehaviour
 		lightToChange.color = Color.red;
 
 		
-		Ray rayBoxCheck = new Ray(transform.position, transform.forward);
+		Ray rayBoxCheck = new Ray(transform.position + new Vector3(0,-.3f,0), transform.forward);
 		RaycastHit hit;
 
 		if (Physics.Raycast(rayBoxCheck, out hit, raycastRange))
 		{
-			if (hit.transform.gameObject.tag == "Box")
+			Debug.Log("neye vurii " + hit.transform.name);
+			Debug.Log("neye vurii " + hit.point);
+			if (hit.transform.gameObject.tag == "Collectible01")
 			{
 				// The light color that changes when ray hits a box
 				lightToChange.color = Color.green;
@@ -67,14 +69,14 @@ public class CharacterControl : MonoBehaviour
 						boxToPickUp.transform.parent = transform;
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 					}
-					else
+					/*else
 					{
 						pickUp = false;
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
 						boxToPickUp.transform.parent = null;
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
-					}
+					}*/
 
 					Debug.Log("tekrar tekrar calisiyor mu");
 
@@ -83,6 +85,19 @@ public class CharacterControl : MonoBehaviour
 
 				// When the ray hit the box code can written here
 
+			}
+
+		}
+
+		if (Input.GetKeyDown(KeyCode.Mouse1))
+		{
+			if (pickUp)
+			{
+				pickUp = false;
+				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
+				boxToPickUp.transform.parent = null;
+				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 			}
 		}
 
@@ -106,7 +121,6 @@ public class CharacterControl : MonoBehaviour
 
 		transform.LookAt(transform.position + lookDir, Vector3.up);
 		// mouse look ends here
-
 
 
 		// Jump code
