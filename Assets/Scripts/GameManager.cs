@@ -10,7 +10,9 @@ public enum GameState
     NullState,
     Intro,
     MainMenu,
-    Game,
+    Level01,
+    Level01_Special,
+    Level01_Post,
     Win,
     GameOver,
 }
@@ -25,11 +27,7 @@ public class GameManager : MonoBehaviour
 
     // SoundManagerDebug
     private SoundManager soundManager;
-
-
-    // Collectibles and win state
-    //private CollectorManager collectorManager;
-
+   
     private void Awake()
     {
         if (Instance == null)
@@ -67,6 +65,7 @@ public class GameManager : MonoBehaviour
     {
         // Set initial game state
         //SetGameState(GameState.MainMenu);
+        
     }
 
     public void SetGameState(GameState gameState)
@@ -84,7 +83,16 @@ public class GameManager : MonoBehaviour
             case GameState.MainMenu:     
                 // load main menu
                 break;
-            case GameState.Game:
+            case GameState.Level01:
+                // set countdown timer
+                // game functions
+                break;
+            case GameState.Level01_Special:
+                // set countdown timer
+                // game functions
+                break;
+            case GameState.Level01_Post:
+                // set countdown timer
                 // game functions
                 break;
             case GameState.Win:
