@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Diagnostics;
+using TMPro;
 
 public class CargoBox : MonoBehaviour, ICollectible
 {
@@ -10,9 +11,10 @@ public class CargoBox : MonoBehaviour, ICollectible
     public int damageCounter;   // damagecounter can be used on UI
     public string condition = "Good";
     public bool pickedUp = false;
+	public TextMeshProUGUI BoxDamageText;
 
-    
-    public void Collect()
+
+	public void Collect()
     {
         //throw new System.NotImplementedException();
         UnityEngine.Debug.Log("Box Secured!");
@@ -30,6 +32,8 @@ public class CargoBox : MonoBehaviour, ICollectible
 			if (damageCounter == 1) { condition = "Cracked"; }
 			else if (damageCounter == 2) { condition = "Damaged"; }
 		}
+
+		BoxDamageText.text = condition;
 	}
 
 }
