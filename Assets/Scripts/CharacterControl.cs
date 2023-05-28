@@ -16,8 +16,6 @@ public class CharacterControl : MonoBehaviour
 	[SerializeField] private int raycastRange = 10;
 
 	[SerializeField] private Transform boxHoldPoint;
-	public TextMeshProUGUI pickupText;
-	public TextMeshProUGUI ongroundText;
 
 	private GameObject boxToPickUp;
 
@@ -41,7 +39,20 @@ public class CharacterControl : MonoBehaviour
 		Ray groundCheckRay = new Ray(rayStartPos, -transform.up);
 
 		// Check onground with raycast
-		OnGroundCheck(groundCheckRay);
+		//OnGroundCheck(groundCheckRay);
+
+		RaycastHit checkGround;
+
+		if (Physics.Raycast(groundCheckRay, out checkGround, .9f))
+		{
+			onground = true;
+			// ongroundText.text = "grounded";
+		}
+		else
+		{
+			onground = false;
+			// ongroundText.text = "air";
+		}
 
 		// box check starts here
 		// The light color on standby
@@ -54,7 +65,6 @@ public class CharacterControl : MonoBehaviour
 		if (Physics.Raycast(rayBoxCheck, out hit, raycastRange))
 		{
 			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
-			if (hit.transform.gameObject.tag == "Collectible01")
 			{
 				// The light color that changes when ray hits a box
 				lightToChange.color = Color.green;
@@ -62,10 +72,11 @@ public class CharacterControl : MonoBehaviour
 				if (Input.GetKeyDown(KeyCode.Mouse0))
 				{
 					if(!pickUp)
-					{
+					{						
 						pickUp = true;
-						pickupText.text = "Picked up";	// on screen test 
+						// pickupText.text = "Picked up";	// on screen test 
 						boxToPickUp = hit.transform.gameObject;
+						Debug.Log(hit.transform.gameObject.name);
 						CargoBox boxScript = boxToPickUp.GetComponent<CargoBox>();
 							// sound for pickup
 							boxScript.PlayChoosenSound(boxScript.boxPickedUp);
@@ -90,7 +101,7 @@ public class CharacterControl : MonoBehaviour
 			if (pickUp)
 			{
 				pickUp = false;
-				pickupText.text = "Not Picked up";  // on screen test 
+				// pickupText.text = "Not Picked up";  // on screen test 
 				CargoBox boxScript = boxToPickUp.GetComponent<CargoBox>();
 				// sound for pickup
 				boxScript.PlayChoosenSound(boxScript.boxDropped);
@@ -114,7 +125,7 @@ public class CharacterControl : MonoBehaviour
 		RaycastHit hitGround;
 		LayerMask layerGorund = 1<<6;
 
-		if (Physics.Raycast(ray, out hitGround, 100, layerGorund))
+		if (Physics.Raycast(ray, out hitGround, 20000, layerGorund))
 		{
 			lookPos = hitGround.point;
 		}
@@ -179,12 +190,12 @@ public class CharacterControl : MonoBehaviour
 		if (Physics.Raycast(groundCheckRay, out checkGround, .9f))
 		{
 			onground = true;
-			ongroundText.text = "grounded";
+			// ongroundText.text = "grounded";
 		}
 		else
 		{
 			onground = false;
-			ongroundText.text = "air";
+			// ongroundText.text = "air";
 		}
 	}
 }

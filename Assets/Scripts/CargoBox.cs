@@ -62,7 +62,7 @@ public class CargoBox : MonoBehaviour, ICollectible
 
     public void PlayChoosenSound(AudioClip clipToPlay)
     {
-		soundBox.PlayOneShot(clipToPlay, 1.5f);
+		soundBox.PlayOneShot(clipToPlay, .8f);
 	}
 
 

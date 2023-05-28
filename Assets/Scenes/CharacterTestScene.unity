@@ -183,6 +183,10 @@ PrefabInstance:
       value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 1332266713102660788, guid: 3d094092515c2fd4a92b7b1992fdb54e, type: 3}
+      propertyPath: jumpForce
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332266713102660788, guid: 3d094092515c2fd4a92b7b1992fdb54e, type: 3}
       propertyPath: pickupText
       value: 
       objectReference: {fileID: 901952881}
