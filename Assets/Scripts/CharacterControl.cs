@@ -16,8 +16,6 @@ public class CharacterControl : MonoBehaviour
 	[SerializeField] private int raycastRange = 10;
 
 	[SerializeField] private Transform boxHoldPoint;
-	public TextMeshProUGUI pickupText;
-	public TextMeshProUGUI ongroundText;
 
 	private GameObject boxToPickUp;
 
@@ -41,7 +39,20 @@ public class CharacterControl : MonoBehaviour
 		Ray groundCheckRay = new Ray(rayStartPos, -transform.up);
 
 		// Check onground with raycast
-		OnGroundCheck(groundCheckRay);
+		//OnGroundCheck(groundCheckRay);
+
+		RaycastHit checkGround;
+
+		if (Physics.Raycast(groundCheckRay, out checkGround, .9f))
+		{
+			onground = true;
+			// ongroundText.text = "grounded";
+		}
+		else
+		{
+			onground = false;
+			// ongroundText.text = "air";
+		}
 
 		// box check starts here
 		// The light color on standby
@@ -54,9 +65,6 @@ public class CharacterControl : MonoBehaviour
 		if (Physics.Raycast(rayBoxCheck, out hit, raycastRange))
 		{
 			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
-			Debug.Log("neye vurii " + hit.transform.name);
-			Debug.Log("neye vurii " + hit.point);
-			if (hit.transform.gameObject.tag == "Collectible01" || hit.transform.gameObject.tag == "DummyBox")
 			{
 				// The light color that changes when ray hits a box
 				lightToChange.color = Color.green;
@@ -64,21 +72,22 @@ public class CharacterControl : MonoBehaviour
 				if (Input.GetKeyDown(KeyCode.Mouse0))
 				{
 					if(!pickUp)
-					{
+					{						
 						pickUp = true;
-						pickupText.text = "Picked up";	// on screen test 
+						// pickupText.text = "Picked up";	// on screen test 
 						boxToPickUp = hit.transform.gameObject;
+						Debug.Log(hit.transform.gameObject.name);
+						CargoBox boxScript = boxToPickUp.GetComponent<CargoBox>();
+							// sound for pickup
+							boxScript.PlayChoosenSound(boxScript.boxPickedUp);
 						boxToPickUp.GetComponent<CargoBox>().pickedUp = true;
+						boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);						
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
 						// change position of the box here to hold point
 						boxToPickUp.transform.position = boxHoldPoint.position;
 						boxToPickUp.transform.parent = transform;
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 					}
-
-					Debug.Log("tekrar tekrar calisiyor mu");
-
-					Debug.Log("box budur : " + boxToPickUp.name);
 				}
 
 				// When the ray hit the box code can written here
@@ -92,8 +101,12 @@ public class CharacterControl : MonoBehaviour
 			if (pickUp)
 			{
 				pickUp = false;
-				pickupText.text = "Not Picked up";  // on screen test 
+				// pickupText.text = "Not Picked up";  // on screen test 
+				CargoBox boxScript = boxToPickUp.GetComponent<CargoBox>();
+				// sound for pickup
+				boxScript.PlayChoosenSound(boxScript.boxDropped);
 				boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
+				boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
 				boxToPickUp.transform.parent = null;
 				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -112,7 +125,7 @@ public class CharacterControl : MonoBehaviour
 		RaycastHit hitGround;
 		LayerMask layerGorund = 1<<6;
 
-		if (Physics.Raycast(ray, out hitGround, 100, layerGorund))
+		if (Physics.Raycast(ray, out hitGround, 20000, layerGorund))
 		{
 			lookPos = hitGround.point;
 		}
@@ -130,10 +143,23 @@ public class CharacterControl : MonoBehaviour
 			Jump();
 		}
 
+		// Run code
+		if (Input.GetKeyDown(KeyCode.LeftShift))
+		{
+			speed = 350 * 1.5f;
+		}
+		if (Input.GetKeyUp(KeyCode.LeftShift))
+		{
+			speed = 350;
+		}
+
 	}
 
 	private void FixedUpdate()
 	{
+		// Run code
+
+
 		// Controls
 		float horizontal = Input.GetAxisRaw("Horizontal");
 		float vertical = Input.GetAxisRaw("Vertical");
@@ -164,12 +190,12 @@ public class CharacterControl : MonoBehaviour
 		if (Physics.Raycast(groundCheckRay, out checkGround, .9f))
 		{
 			onground = true;
-			ongroundText.text = "grounded";
+			// ongroundText.text = "grounded";
 		}
 		else
 		{
 			onground = false;
-			ongroundText.text = "air";
+			// ongroundText.text = "air";
 		}
 	}
 }
