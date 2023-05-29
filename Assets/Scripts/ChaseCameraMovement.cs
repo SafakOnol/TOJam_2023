@@ -13,7 +13,7 @@ public class ChaseCameraMovement : MonoBehaviour
 	private void Awake()
 	{
 		// we set offset here manually
-		_offset = new Vector3(0, 13, -8);
+		_offset = new Vector3(0, 8, -5);
 
 		// or we can set the difference as offset
 		//_offset = transform.position - PlayersTransform.position;
