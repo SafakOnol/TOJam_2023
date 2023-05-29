@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +15,11 @@ public class AlarmLights : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnState_Level01_Special += GameManager_OnState_Level01_Special;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnState_Level01_Special -= GameManager_OnState_Level01_Special;
     }
 
     private void GameManager_OnState_Level01_Special()
