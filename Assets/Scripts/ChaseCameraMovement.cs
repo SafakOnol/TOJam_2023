@@ -13,10 +13,10 @@ public class ChaseCameraMovement : MonoBehaviour
 	private void Awake()
 	{
 		// we set offset here manually
-		//_offset = new Vector3(0, 5, -5);
+		_offset = new Vector3(0, 13, -8);
 
 		// or we can set the difference as offset
-		_offset = transform.position - PlayersTransform.position;
+		//_offset = transform.position - PlayersTransform.position;
 		transform.position = PlayersTransform.position + _offset;
 
 		// Rotate the cube by converting the angles into a quaternion.

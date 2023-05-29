@@ -9,18 +9,23 @@ using UnityEngine.UIElements;
 public class CargoBox : MonoBehaviour, ICollectible
 {
     public static event Action OnCargoBoxSecured;
+    public static event Action OnDamage;
     private Rigidbody rb;
 
     public int damageCounter;   // damagecounter can be used on UI
     public string condition = "Good";
     public bool pickedUp = false;
+	public bool vulnerability = false;
 
-    public void Collect()
+    public AudioSource soundBox;
+	[SerializeField] public AudioClip boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
+
+	public void Collect()
     {
         //throw new System.NotImplementedException();
         Debug.Log("Box Secured!");
         //Destroy(gameObject);
-        FreezeComponent();
+        // FreezeComponent();
         OnCargoBoxSecured?.Invoke();
     }
 
@@ -40,14 +45,26 @@ public class CargoBox : MonoBehaviour, ICollectible
     private void OnCollisionEnter(UnityEngine.Collision collision)
     {
         UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
-        if (pickedUp)
+        if (pickedUp && vulnerability)
         {
             damageCounter++;
             // box damage code goes here
             if (damageCounter == 1) { condition = "Cracked"; }
             else if (damageCounter == 2) { condition = "Damaged"; }
+            soundBox.PlayOneShot(boxDamaged,0.4f);
         }
     }
+
+    private void DamageToBox()
+	{
+		vulnerability = true;
+	}
+
+    public void PlayChoosenSound(AudioClip clipToPlay)
+    {
+		soundBox.PlayOneShot(clipToPlay, .8f);
+	}
+
 
 }
 
