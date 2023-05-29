@@ -187,6 +187,10 @@ PrefabInstance:
       value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 1332266713102660788, guid: 3d094092515c2fd4a92b7b1992fdb54e, type: 3}
+      propertyPath: jumpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 3f3f1f414017abb438cab00fdcb5755c, type: 3}
+    - target: {fileID: 1332266713102660788, guid: 3d094092515c2fd4a92b7b1992fdb54e, type: 3}
       propertyPath: pickupText
       value: 
       objectReference: {fileID: 901952881}
@@ -844,8 +848,7 @@ MonoBehaviour:
   lightToChange: {fileID: 494453044}
   raycastRange: 4
   boxHoldPoint: {fileID: 1021928411}
-  pickupText: {fileID: 0}
-  ongroundText: {fileID: 0}
+  jumpSound: {fileID: 0}
 --- !u!65 &521226170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1444,8 +1447,7 @@ MonoBehaviour:
   lightToChange: {fileID: 0}
   raycastRange: 10
   boxHoldPoint: {fileID: 0}
-  pickupText: {fileID: 0}
-  ongroundText: {fileID: 0}
+  jumpSound: {fileID: 0}
 --- !u!114 &1014528634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2101,6 +2103,12 @@ MonoBehaviour:
   PlayersTransform: {fileID: 1204293021}
   smoothTime: 0.3
   angleToChangeCamRotation: 50
+  minZ: -20
+  maxZ: 100
+  _offsetX: 0
+  _offsetY: 8
+  _offsetZ: -5
+  soundPlayer: {fileID: 0}
 --- !u!82 &1580470809
 AudioSource:
   m_ObjectHideFlags: 0
