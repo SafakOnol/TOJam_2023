@@ -16,17 +16,23 @@ public class CargoBox : MonoBehaviour, ICollectible
     public string condition = "Good";
     public bool pickedUp = false;
 	public bool vulnerability = false;
+    private bool IsSecured = false;
 
     public AudioSource soundBox;
 	[SerializeField] public AudioClip boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
 
 	public void Collect()
     {
-        //throw new System.NotImplementedException();
-        Debug.Log("Box Secured!");
-        //Destroy(gameObject);
-        // FreezeComponent();
-        OnCargoBoxSecured?.Invoke();
+        if(!IsSecured)
+        {
+            //throw new System.NotImplementedException();
+            Debug.Log("Box Secured!");
+            //Destroy(gameObject);
+            // FreezeComponent();
+            IsSecured = true;
+            OnCargoBoxSecured?.Invoke();            
+        }
+        
     }
 
     public void FreezeComponent()
