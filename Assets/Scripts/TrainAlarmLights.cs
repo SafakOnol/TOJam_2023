@@ -9,5 +9,4 @@ public class TrainAlarmLights : MonoBehaviour
     {
         transform.Rotate(rotateAngle * Time.deltaTime, 0, 0);
     }
-
 }
