@@ -18,6 +18,7 @@ public class CharacterControl : MonoBehaviour
 	[SerializeField] private Transform boxHoldPoint;
 
 	private GameObject boxToPickUp;
+	public AudioClip jumpSound;
 
 	private bool	onground = false,
 					pickUp = false;
@@ -43,7 +44,7 @@ public class CharacterControl : MonoBehaviour
 
 		RaycastHit checkGround;
 
-		if (Physics.Raycast(groundCheckRay, out checkGround, .9f))
+		if (Physics.Raycast(groundCheckRay, out checkGround, .6f))
 		{
 			onground = true;
 			// ongroundText.text = "grounded";
@@ -116,9 +117,6 @@ public class CharacterControl : MonoBehaviour
 
 		// box check ends here
 
-		// box to hold movement script
-		// ends here
-
 
 		// mouse look character using raycast
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -170,7 +168,7 @@ public class CharacterControl : MonoBehaviour
 			rb.AddForce(direction * speed, ForceMode.Force);
 		}
 		else if(!onground){
-			rb.AddForce(direction * speed / 5, ForceMode.Force);
+			rb.AddForce(direction * speed / 10, ForceMode.Force);
 		}
 
 	}
@@ -180,6 +178,7 @@ public class CharacterControl : MonoBehaviour
 		if (onground)
 		{
 			rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+			Camera.main.GetComponent<ChaseCameraMovement>().PlayChoosenSound(jumpSound) ;
 		}
 	}
 
