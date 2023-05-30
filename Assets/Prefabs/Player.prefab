@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 1332266713102660788}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,6 +180,7 @@ MonoBehaviour:
   lightToChange: {fileID: 1332266712921152270}
   raycastRange: 4
   boxHoldPoint: {fileID: 1332266713215573313}
+  jumpSound: {fileID: 8300000, guid: 3f3f1f414017abb438cab00fdcb5755c, type: 3}
 --- !u!1 &1332266713215573314
 GameObject:
   m_ObjectHideFlags: 0

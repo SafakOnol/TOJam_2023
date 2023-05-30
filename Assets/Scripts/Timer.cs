@@ -5,19 +5,47 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private static float countdownValue = 100;
+    private float countdownValue;
+    [SerializeField] private float timerValue;
     public TextMeshProUGUI timerText;
-    
+    private bool timerRunning = false;
+
+    private void Awake()
+    {
+        countdownValue = timerValue;
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnState_Level01 += GameManager_OnState_Level01;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnState_Level01 -= GameManager_OnState_Level01;
+    }
+
+
+    private void GameManager_OnState_Level01()
+    {
+        //throw new System.NotImplementedException();
+        timerRunning = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (countdownValue > 0) 
+        if (timerRunning)
         {
-            countdownValue -= Time.deltaTime;        
-        }
-        else countdownValue = 0;
+            if (countdownValue > 0)
+            {
+                countdownValue -= Time.deltaTime;
+            }
+            else countdownValue = 0;
 
-        DisplayCountdown(countdownValue);
+            DisplayCountdown(countdownValue);
+        }
+        
     }
 
     void DisplayCountdown(float countdownDisplay)
