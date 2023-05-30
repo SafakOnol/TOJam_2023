@@ -20,7 +20,6 @@ public class CargoBox : MonoBehaviour, ICollectible
 
     public AudioSource soundBox;
 	[SerializeField] public AudioClip boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
-
 	public void Collect()
     {
         if(!IsSecured)

@@ -52,9 +52,4 @@ public class CollectorManager : MonoBehaviour
         if (valuablesBoxCount == ValuablesBoxCountToCollect) OnAllValuablesBoxCollected?.Invoke();
     }
 
-    public void ChangeGameState()
-    {
-
-    }
-
 }
