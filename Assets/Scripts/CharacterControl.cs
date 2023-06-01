@@ -16,20 +16,28 @@ public class CharacterControl : MonoBehaviour
 	[SerializeField] private int raycastRange = 10;
 
 	[SerializeField] private Transform boxHoldPoint;
+	// [SerializeField] GameObject gameManagerForSound;		// not required for now
 
 	private GameObject boxToPickUp;
-	public AudioClip jumpSound;
+	public AudioSource soundBox;
+	public AudioClip jumpSound, boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
 
 	private bool	onground = false,
 					pickUp = false;
 
-    Vector3 lookPos;
 
-	Vector3 offsetRayPos = new Vector3(0, .65f, 0);
+	// Debugging variables
+	public TextMeshProUGUI ongroundText;
+	public float rayRadius;
+
+	Vector3 lookPos;
+
+	Vector3 offsetRayPos = new Vector3(0, .30f, 0);
 
 	private void Start()
 	{
 		rb = Player.GetComponent<Rigidbody>();
+		soundBox = gameObject.GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
@@ -39,12 +47,9 @@ public class CharacterControl : MonoBehaviour
 		Vector3 rayStartPos = transform.position - offsetRayPos;
 		Ray groundCheckRay = new Ray(rayStartPos, -transform.up);
 
-		// Check onground with raycast
-		//OnGroundCheck(groundCheckRay);
-
 		RaycastHit checkGround;
 
-		if (Physics.Raycast(groundCheckRay, out checkGround, .6f))
+		if (Physics.SphereCast(groundCheckRay, rayRadius, out checkGround, .6f))	// best radius here is .3f
 		{
 			onground = true;
 			// ongroundText.text = "grounded";
@@ -55,10 +60,25 @@ public class CharacterControl : MonoBehaviour
 			// ongroundText.text = "air";
 		}
 
+		Debug.DrawRay(rayStartPos, -transform.up, Color.white);
+
+		// Will be kept here in case
+		// below code can be changed to sphere cast to better check onground
+		/*if (Physics.Raycast(groundCheckRay, out checkGround, .6f))
+		{
+			onground = true;
+			// ongroundText.text = "grounded";
+		}
+		else
+		{
+			onground = false;
+			// ongroundText.text = "air";
+		}*/
+
+		
 		// box check starts here
 		// The light color on standby
 		lightToChange.color = Color.red;
-
 		
 		Ray rayBoxCheck = new Ray(transform.position + new Vector3(0,-.3f,0), transform.forward);
 		RaycastHit hit;
@@ -76,17 +96,25 @@ public class CharacterControl : MonoBehaviour
 					{						
 						pickUp = true;
 						// pickupText.text = "Picked up";	// on screen test 
-						boxToPickUp = hit.transform.gameObject;
-						Debug.Log(hit.transform.gameObject.name);
-						CargoBox boxScript = boxToPickUp.GetComponent<CargoBox>();
-							// sound for pickup
-							boxScript.PlayChoosenSound(boxScript.boxPickedUp);
-						boxToPickUp.GetComponent<CargoBox>().pickedUp = true;
-						boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);						
+						boxToPickUp = hit.transform.gameObject;     // picks the object that is hit by raycast
+						PlayChoosenSound(boxPickedUp);              // plays pick up sound each time player picks a box
+
+						if (boxToPickUp.name[0] == 'C' || boxToPickUp.name[0] == 'D')
+						{
+							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;       // this doesnt work for valuebox - fix it
+							boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);
+						}
+						else
+						{
+							boxToPickUp.GetComponent<ValuablesBox>().pickedUp = true;
+							boxToPickUp.GetComponent<ValuablesBox>().Invoke("DamageToBox", 2);
+						}
+					
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
-						// change position of the box here to hold point
-						boxToPickUp.transform.position = boxHoldPoint.position;
+						// change position of the box here to hold point						
 						boxToPickUp.transform.parent = transform;
+						boxToPickUp.transform.position = boxHoldPoint.position;
+
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 					}
 				}
@@ -101,13 +129,21 @@ public class CharacterControl : MonoBehaviour
 		{
 			if (pickUp)
 			{
-				pickUp = false;
-				// pickupText.text = "Not Picked up";  // on screen test 
-				CargoBox boxScript = boxToPickUp.GetComponent<CargoBox>();
-				// sound for pickup
-				boxScript.PlayChoosenSound(boxScript.boxDropped);
-				boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
-				boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
+				pickUp = false;		
+				
+				PlayChoosenSound(boxDropped);              // plays pick up sound each time player drops a box
+
+				if (boxToPickUp.name[0] == 'C' || boxToPickUp.name[0] == 'D')
+				{
+					boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
+					boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
+				}
+				else
+				{
+					boxToPickUp.GetComponent<ValuablesBox>().pickedUp = false;
+					boxToPickUp.GetComponent<ValuablesBox>().vulnerability = false;
+				}
+
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
 				boxToPickUp.transform.parent = null;
 				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -196,5 +232,10 @@ public class CharacterControl : MonoBehaviour
 			onground = false;
 			// ongroundText.text = "air";
 		}
+	}
+
+	public void PlayChoosenSound(AudioClip clipToPlay)
+	{
+		soundBox.PlayOneShot(clipToPlay, .8f);
 	}
 }

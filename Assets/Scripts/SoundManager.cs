@@ -37,6 +37,12 @@ public class SoundManager : MonoBehaviour
         Debug.Log("PlayBoxSecuredSound played!");
         //PlayAudioClip(boxSecured);
     }
+
+    public void PlayGivenSound(AudioClip ClipToPlay)
+    {
+        audioSource.clip = ClipToPlay;
+        audioSource.Play();
+    }
 }
 
 
