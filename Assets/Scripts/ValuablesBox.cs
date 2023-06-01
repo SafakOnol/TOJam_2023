@@ -12,6 +12,8 @@ public class ValuablesBox : MonoBehaviour, ICollectible
 	public bool pickedUp = false,
 				vulnerability = false;
 
+	private bool IsSecured = false;
+
 	public void Collect()
     {
         if (!IsSecured)

@@ -52,12 +52,12 @@ public class CharacterControl : MonoBehaviour
 		if (Physics.SphereCast(groundCheckRay, rayRadius, out checkGround, .6f))	// best radius here is .3f
 		{
 			onground = true;
-			ongroundText.text = "grounded";
+			// ongroundText.text = "grounded";
 		}
 		else
 		{
 			onground = false;
-			ongroundText.text = "air";
+			// ongroundText.text = "air";
 		}
 
 		Debug.DrawRay(rayStartPos, -transform.up, Color.white);
