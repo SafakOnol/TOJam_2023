@@ -6,6 +6,7 @@ using System;
 public class ValuablesBox : MonoBehaviour, ICollectible
 {
     public static event Action OnValuablesBoxCollected;
+    public static event Action OnDamage;
     private Rigidbody rb;
 
 	public bool pickedUp = false,
@@ -13,12 +14,16 @@ public class ValuablesBox : MonoBehaviour, ICollectible
 
 	public void Collect()
     {
-        //throw new System.NotImplementedException();
-        Debug.Log("Valuables Box Secured!");
-        //Destroy(gameObject);
-        // FreezeComponent();
-        OnValuablesBoxCollected?.Invoke();
-        
+        if (!IsSecured)
+        {
+            //throw new System.NotImplementedException();
+            Debug.Log("Valuables Box Secured!");
+            //Destroy(gameObject);
+            // FreezeComponent();
+            IsSecured = true;
+            OnValuablesBoxCollected?.Invoke();            
+        }
+                
     }
 
 	public void FreezeComponent()

@@ -122,7 +122,7 @@ MonoBehaviour:
   boxSecured: {fileID: 0}
   boxDropped: {fileID: 8300000, guid: a4868b1bad9e64840b2153abdd1dc935, type: 3}
   boxDamaged: {fileID: 8300000, guid: 09371d1aeff5c89418d15eb8e836e5f3, type: 3}
-  boxDestroyed: {fileID: 0}
+  boxDestroyed: {fileID: 8300000, guid: 09371d1aeff5c89418d15eb8e836e5f3, type: 3}
 --- !u!54 &2635353984499475696
 Rigidbody:
   m_ObjectHideFlags: 0

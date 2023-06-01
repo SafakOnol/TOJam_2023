@@ -214,7 +214,7 @@ public class CharacterControl : MonoBehaviour
 		if (onground)
 		{
 			rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-			Camera.main.GetComponent<ChaseCameraMovement>().PlayChoosenSound(jumpSound) ;
+            Camera.main.GetComponent<ChaseCameraMovement>().PlayChoosenSound(jumpSound);
 		}
 	}
 

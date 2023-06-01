@@ -38,7 +38,7 @@ public class ChaseCameraMovement : MonoBehaviour
 		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _currentVelocity, smoothTime);
 	}
 
-	public void PlayChoosenSound(AudioClip clipToPlay)
+    public void PlayChoosenSound(AudioClip clipToPlay)
 	{
 		soundPlayer.clip = clipToPlay;
 		soundPlayer.Play();
