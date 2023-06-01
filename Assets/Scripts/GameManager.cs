@@ -49,7 +49,10 @@ public class GameManager : MonoBehaviour
         }
 
         soundManager = gameObject.GetComponent<SoundManager>();
-        SetGameState(GameState.Intro);
+
+        // ---- INITIAL GAME STATE IS HERE! ---- // 
+        SetGameState(GameState.Level01_Special);
+        // ---- INITIAL GAME STATE IS HERE! ---- // 
     }
 
     private void OnEnable()
