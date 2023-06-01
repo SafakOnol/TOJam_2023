@@ -58,3 +58,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7bfcaa0b39b3645888c5ff3bb82683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boxPickedUp: {fileID: 8300000, guid: 90906f2c149d33442b7ef085894edc72, type: 3}
+  boxSecured: {fileID: 0}
+  boxDropped: {fileID: 8300000, guid: a4868b1bad9e64840b2153abdd1dc935, type: 3}
+  boxDamaged: {fileID: 8300000, guid: 61d789ddbffb845409aa1643808f326a, type: 3}
+  boxDestroyed: {fileID: 8300000, guid: 09371d1aeff5c89418d15eb8e836e5f3, type: 3}
