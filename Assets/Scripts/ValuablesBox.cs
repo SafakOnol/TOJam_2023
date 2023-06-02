@@ -8,16 +8,17 @@ public class ValuablesBox : MonoBehaviour, ICollectible
     public static event Action OnValuablesBoxCollected;
     public static event Action OnDamage;
     private Rigidbody rb;
+	private GameObject playerGameobject;
 
-    public int damageCounter;   // damagecounter can be used on UI
-    public string condition = "Good";
-    public bool pickedUp = false;
-    public bool vulnerability = false;
-    private bool IsSecured = false;
+	public int damageCounter;   // damagecounter can be used on UI
+	public string condition = "Good";
+	public bool pickedUp = false,
+				vulnerability = false;
 
-    public AudioSource soundBox;
-    [SerializeField] public AudioClip boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
-    public void Collect()
+	private bool IsSecured = false;
+
+
+	public void Collect()
     {
         if (!IsSecured)
         {
@@ -44,21 +45,37 @@ public class ValuablesBox : MonoBehaviour, ICollectible
 		}
 	}
 
-    private void OnCollisionEnter(UnityEngine.Collision collision)
-    {
-        UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
-        if (pickedUp && vulnerability)
-        {
-            damageCounter++;
-            // box damage code goes here
-            if (damageCounter == 1) { condition = "Cracked"; }
-            else if (damageCounter == 2) { condition = "Damaged"; }
-            soundBox.PlayOneShot(boxDamaged, 0.4f);
-        }
-    }
-    public void PlayChoosenSound(AudioClip clipToPlay)
-    {
-        soundBox.PlayOneShot(clipToPlay, .8f);
-    }
+	private void Awake()
+	{
+		playerGameobject = GameObject.FindGameObjectWithTag("Player");
+	}
+
+	private void OnCollisionEnter(UnityEngine.Collision collision)
+	{
+		UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
+		if (pickedUp && vulnerability)
+		{
+			damageCounter++;
+			// box damage code goes here
+			switch (damageCounter)
+			{
+				case 2:
+					playerGameobject.gameObject.GetComponent<CharacterControl>().PlayChoosenSound(playerGameobject.GetComponent<CharacterControl>().boxDamaged);
+					condition = "Damaged";
+					break;
+				case 4:
+					playerGameobject.gameObject.GetComponent<CharacterControl>().PlayChoosenSound(playerGameobject.GetComponent<CharacterControl>().boxDestroyed);
+					playerGameobject.GetComponent<CharacterControl>().pickUp = false;
+					Destroy(gameObject);
+					break;
+			}
+		}
+	}
+
+	// Invoke by player to remove damage at first pick up
+	private void DamageToBox()
+	{
+		vulnerability = true;
+	}
 
 }
