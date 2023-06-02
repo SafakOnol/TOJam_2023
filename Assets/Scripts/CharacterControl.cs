@@ -22,7 +22,7 @@ public class CharacterControl : MonoBehaviour
 	public AudioSource soundBox;
 	public AudioClip jumpSound, boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
 
-	private bool	onground = false,
+	public bool	onground = false,
 					pickUp = false;
 
 
@@ -180,20 +180,17 @@ public class CharacterControl : MonoBehaviour
 		// Run code
 		if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
-			speed = 350 * 1.5f;
+			speed = 500 * 1.5f;
 		}
 		if (Input.GetKeyUp(KeyCode.LeftShift))
 		{
-			speed = 350;
+			speed = 500;
 		}
 
 	}
 
 	private void FixedUpdate()
 	{
-		// Run code
-
-
 		// Controls
 		float horizontal = Input.GetAxisRaw("Horizontal");
 		float vertical = Input.GetAxisRaw("Vertical");
@@ -214,7 +211,7 @@ public class CharacterControl : MonoBehaviour
 		if (onground)
 		{
 			rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            Camera.main.GetComponent<ChaseCameraMovement>().PlayChoosenSound(jumpSound);
+			PlayChoosenSound(jumpSound);
 		}
 	}
 

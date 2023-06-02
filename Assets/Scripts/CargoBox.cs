@@ -11,8 +11,9 @@ public class CargoBox : MonoBehaviour, ICollectible
     public static event Action OnCargoBoxSecured;
     public static event Action OnDamage;
     private Rigidbody rb;
+	private GameObject playerGameobject;
 
-    public int damageCounter;   // damagecounter can be used on UI
+	public int damageCounter;   // damagecounter can be used on UI
     public string condition = "Good";
     public bool pickedUp = false;
 	public bool vulnerability = false;
@@ -47,15 +48,35 @@ public class CargoBox : MonoBehaviour, ICollectible
         }
     }
 
-    private void OnCollisionEnter(UnityEngine.Collision collision)
+	private void Awake()
+	{
+		playerGameobject = GameObject.FindGameObjectWithTag("Player");
+	}
+
+	private void OnCollisionEnter(UnityEngine.Collision collision)
     {
         UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
         if (pickedUp && vulnerability)
         {
             damageCounter++;
             // box damage code goes here
-            if (damageCounter == 1) { condition = "Cracked"; }
-            else if (damageCounter == 2) { condition = "Damaged"; }
+            switch (damageCounter)
+            {
+                case 2:
+					condition = "Cracked";
+                    playerGameobject.GetComponent<CharacterControl>().PlayChoosenSound(boxDamaged);
+					break;
+                case 4:
+					condition = "Damaged";
+					playerGameobject.GetComponent<CharacterControl>().PlayChoosenSound(boxDamaged);
+					break;
+                case 6:
+					playerGameobject.GetComponent<CharacterControl>().PlayChoosenSound(boxDestroyed);
+					playerGameobject.GetComponent<CharacterControl>().pickUp = false;
+					Destroy(gameObject);
+                    break;
+			}
+
             soundBox.PlayOneShot(boxDamaged,0.4f);
         }
     }
