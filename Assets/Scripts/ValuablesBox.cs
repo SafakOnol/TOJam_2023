@@ -27,12 +27,18 @@ public class ValuablesBox : MonoBehaviour, ICollectible
             //Destroy(gameObject);
             // FreezeComponent();
             IsSecured = true;
-            OnValuablesBoxCollected?.Invoke();            
+            OnValuablesBoxCollected?.Invoke();
+            FunctionTimer.Create(DestoyAfterCollected, 5f, "DestoyAfterCollected");
         }
                 
     }
 
-	public void FreezeComponent()
+    public void DestoyAfterCollected()
+    {
+        Destroy(gameObject);
+    }
+
+    public void FreezeComponent()
 	{
 		// Freeze the position of the Rigidbody
 		if (TryGetComponent<Rigidbody>(out rb))
@@ -78,4 +84,8 @@ public class ValuablesBox : MonoBehaviour, ICollectible
 		vulnerability = true;
 	}
 
+    public void DestroyAfterCollected()
+    {
+        throw new NotImplementedException();
+    }
 }

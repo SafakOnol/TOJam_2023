@@ -30,9 +30,15 @@ public class CargoBox : MonoBehaviour, ICollectible
             //Destroy(gameObject);
             // FreezeComponent();
             IsSecured = true;
-            OnCargoBoxSecured?.Invoke();            
+            OnCargoBoxSecured?.Invoke();
+            FunctionTimer.Create(DestoyAfterCollected, 5f, "DestoyAfterCollected");
         }
         
+    }
+
+    public void DestoyAfterCollected()
+    {
+        Destroy(gameObject);
     }
 
     public void FreezeComponent()
@@ -91,6 +97,9 @@ public class CargoBox : MonoBehaviour, ICollectible
 		soundBox.PlayOneShot(clipToPlay, .8f);
 	}
 
-
+    public void DestroyAfterCollected()
+    {
+        throw new NotImplementedException();
+    }
 }
 
