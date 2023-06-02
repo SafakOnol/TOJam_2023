@@ -99,10 +99,15 @@ public class CharacterControl : MonoBehaviour
 						boxToPickUp = hit.transform.gameObject;     // picks the object that is hit by raycast
 						PlayChoosenSound(boxPickedUp);              // plays pick up sound each time player picks a box
 
-						if (boxToPickUp.name[0] == 'C' || boxToPickUp.name[0] == 'D')
+						if (boxToPickUp.name[0] == 'C')
 						{
 							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;       // this doesnt work for valuebox - fix it
 							boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);
+						}
+						else if (boxToPickUp.name[0] == 'D')
+						{
+							boxToPickUp.GetComponent<DummyBox>().pickedUp = true;
+							boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
 						}
 						else
 						{
@@ -133,10 +138,15 @@ public class CharacterControl : MonoBehaviour
 				
 				PlayChoosenSound(boxDropped);              // plays pick up sound each time player drops a box
 
-				if (boxToPickUp.name[0] == 'C' || boxToPickUp.name[0] == 'D')
+				if (boxToPickUp.name[0] == 'C')
 				{
 					boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
 					boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
+				}
+				else if (boxToPickUp.name[0] == 'D')
+				{
+					boxToPickUp.GetComponent<DummyBox>().pickedUp = true;
+					boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
 				}
 				else
 				{

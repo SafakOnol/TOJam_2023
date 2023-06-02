@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2712861191824557869}
   - component: {fileID: 2712861191824557875}
   - component: {fileID: -5198275772141731462}
-  - component: {fileID: 6034607036513039780}
+  - component: {fileID: -7898239078446460228}
   - component: {fileID: -4436875136028423567}
   m_Layer: 0
   m_Name: DummyBox
@@ -116,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6034607036513039780
+--- !u!114 &-7898239078446460228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,19 +125,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2712861191824557874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 612741cd1096de74abd963cba1607aa9, type: 3}
+  m_Script: {fileID: 11500000, guid: 64545d2073d2c114f81bef6cdc1367cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damageCounter: 0
   condition: Good
   pickedUp: 0
   vulnerability: 0
-  soundBox: {fileID: -4436875136028423567}
-  boxPickedUp: {fileID: 8300000, guid: 90906f2c149d33442b7ef085894edc72, type: 3}
-  boxSecured: {fileID: 8300000, guid: a4868b1bad9e64840b2153abdd1dc935, type: 3}
-  boxDropped: {fileID: 8300000, guid: a4868b1bad9e64840b2153abdd1dc935, type: 3}
-  boxDamaged: {fileID: 8300000, guid: 61d789ddbffb845409aa1643808f326a, type: 3}
-  boxDestroyed: {fileID: 8300000, guid: 09371d1aeff5c89418d15eb8e836e5f3, type: 3}
+  soundBox: {fileID: 0}
+  boxPickedUp: {fileID: 0}
+  boxSecured: {fileID: 0}
+  boxDropped: {fileID: 0}
+  boxDamaged: {fileID: 0}
+  boxDestroyed: {fileID: 0}
 --- !u!82 &-4436875136028423567
 AudioSource:
   m_ObjectHideFlags: 0
