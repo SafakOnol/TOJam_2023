@@ -95,13 +95,15 @@ public class CharacterControl : MonoBehaviour
 					if(!pickUp)
 					{						
 						pickUp = true;
-						// pickupText.text = "Picked up";	// on screen test 
+
 						boxToPickUp = hit.transform.gameObject;     // picks the object that is hit by raycast
 						PlayChoosenSound(boxPickedUp);              // plays pick up sound each time player picks a box
 
+						ongroundText.text = boxToPickUp.name;	// on screen test 
+
 						if (boxToPickUp.name[0] == 'C')
 						{
-							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;       // this doesnt work for valuebox - fix it
+							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;       
 							boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);
 						}
 						else if (boxToPickUp.name[0] == 'D')
@@ -134,8 +136,8 @@ public class CharacterControl : MonoBehaviour
 		{
 			if (pickUp)
 			{
-				pickUp = false;		
-				
+				pickUp = false;
+
 				PlayChoosenSound(boxDropped);              // plays pick up sound each time player drops a box
 
 				if (boxToPickUp.name[0] == 'C')

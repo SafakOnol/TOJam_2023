@@ -30,7 +30,8 @@ public class CargoBox : MonoBehaviour, ICollectible
             //Destroy(gameObject);
             // FreezeComponent();
             IsSecured = true;
-            OnCargoBoxSecured?.Invoke();            
+            OnCargoBoxSecured?.Invoke();
+            pickedUp = true;
         }
         
     }
@@ -81,12 +82,15 @@ public class CargoBox : MonoBehaviour, ICollectible
         }
     }
 
-    private void DamageToBox()
+	private void DamageToBox()
 	{
-		vulnerability = true;
+		if (pickedUp && !vulnerability)
+		{
+			vulnerability = true;
+		}
 	}
 
-    public void PlayChoosenSound(AudioClip clipToPlay)
+	public void PlayChoosenSound(AudioClip clipToPlay)
     {
 		soundBox.PlayOneShot(clipToPlay, .8f);
 	}

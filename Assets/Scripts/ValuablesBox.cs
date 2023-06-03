@@ -75,7 +75,10 @@ public class ValuablesBox : MonoBehaviour, ICollectible
 	// Invoke by player to remove damage at first pick up
 	private void DamageToBox()
 	{
-		vulnerability = true;
+		if(pickedUp && !vulnerability)
+		{
+			vulnerability = true;
+		}
 	}
 
 }
