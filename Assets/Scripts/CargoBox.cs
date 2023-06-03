@@ -17,7 +17,7 @@ public class CargoBox : MonoBehaviour, ICollectible
     public string condition = "Good";
     public bool pickedUp = false;
 	public bool vulnerability = false;
-    private bool IsSecured = false;
+    public bool IsSecured = false;
 
     public AudioSource soundBox;
 	[SerializeField] public AudioClip boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
@@ -30,7 +30,7 @@ public class CargoBox : MonoBehaviour, ICollectible
             //Destroy(gameObject);
             // FreezeComponent();
             IsSecured = true;
-            OnCargoBoxSecured?.Invoke();            
+            OnCargoBoxSecured?.Invoke();
         }
         
     }
@@ -81,12 +81,15 @@ public class CargoBox : MonoBehaviour, ICollectible
         }
     }
 
-    private void DamageToBox()
+	private void DamageToBox()
 	{
-		vulnerability = true;
+		if (pickedUp && !vulnerability)
+		{
+			vulnerability = true;
+		}
 	}
 
-    public void PlayChoosenSound(AudioClip clipToPlay)
+	public void PlayChoosenSound(AudioClip clipToPlay)
     {
 		soundBox.PlayOneShot(clipToPlay, .8f);
 	}

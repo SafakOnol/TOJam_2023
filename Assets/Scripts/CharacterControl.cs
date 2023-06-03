@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
-    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject Player, AnimationPosition;
 	[SerializeField] private Rigidbody rb;
     [SerializeField] public float speed = 10f;
     [SerializeField] public float jumpForce = 10f;
@@ -19,6 +19,7 @@ public class CharacterControl : MonoBehaviour
 	// [SerializeField] GameObject gameManagerForSound;		// not required for now
 
 	private GameObject boxToPickUp;
+	public Animator animator;
 	public AudioSource soundBox;
 	public AudioClip jumpSound, boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
 
@@ -32,7 +33,7 @@ public class CharacterControl : MonoBehaviour
 
 	Vector3 lookPos;
 
-	Vector3 offsetRayPos = new Vector3(0, .30f, 0);
+	Vector3 offsetRayPos = new Vector3(0, 0, 0);	// .30f y axis original value
 
 	private void Start()
 	{
@@ -44,7 +45,7 @@ public class CharacterControl : MonoBehaviour
 	void Update()
     {
 		// Check onground with raycast variables
-		Vector3 rayStartPos = transform.position - offsetRayPos;
+		Vector3 rayStartPos = AnimationPosition.transform.position - offsetRayPos;
 		Ray groundCheckRay = new Ray(rayStartPos, -transform.up);
 
 		RaycastHit checkGround;
@@ -52,6 +53,7 @@ public class CharacterControl : MonoBehaviour
 		if (Physics.SphereCast(groundCheckRay, rayRadius, out checkGround, .6f))	// best radius here is .3f
 		{
 			onground = true;
+			animator.SetBool("isJumping", false);
 			// ongroundText.text = "grounded";
 		}
 		else
@@ -61,22 +63,8 @@ public class CharacterControl : MonoBehaviour
 		}
 
 		Debug.DrawRay(rayStartPos, -transform.up, Color.white);
-
-		// Will be kept here in case
-		// below code can be changed to sphere cast to better check onground
-		/*if (Physics.Raycast(groundCheckRay, out checkGround, .6f))
-		{
-			onground = true;
-			// ongroundText.text = "grounded";
-		}
-		else
-		{
-			onground = false;
-			// ongroundText.text = "air";
-		}*/
-
 		
-		// box check starts here
+		// BOX check STARTS here
 		// The light color on standby
 		lightToChange.color = Color.red;
 		
@@ -92,16 +80,38 @@ public class CharacterControl : MonoBehaviour
 
 				if (Input.GetKeyDown(KeyCode.Mouse0))
 				{
+					if (hit.transform.gameObject.transform.name[0] != 'D')
+					{
+						switch (hit.transform.gameObject.transform.name[0])
+						{
+							case 'C':
+								if (hit.transform.GetComponent<CargoBox>().IsSecured)
+								{
+									return;
+								}
+								break;
+
+							case 'V':
+								if (hit.transform.GetComponent<ValuablesBox>().IsSecured)
+								{
+									return;
+								}
+								break;
+						}
+												
+					}
 					if(!pickUp)
 					{						
 						pickUp = true;
-						// pickupText.text = "Picked up";	// on screen test 
+
 						boxToPickUp = hit.transform.gameObject;     // picks the object that is hit by raycast
 						PlayChoosenSound(boxPickedUp);              // plays pick up sound each time player picks a box
 
+						// ongroundText.text = boxToPickUp.name;	// on screen test 
+
 						if (boxToPickUp.name[0] == 'C')
 						{
-							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;       // this doesnt work for valuebox - fix it
+							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;       
 							boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);
 						}
 						else if (boxToPickUp.name[0] == 'D')
@@ -134,8 +144,8 @@ public class CharacterControl : MonoBehaviour
 		{
 			if (pickUp)
 			{
-				pickUp = false;		
-				
+				pickUp = false;
+
 				PlayChoosenSound(boxDropped);              // plays pick up sound each time player drops a box
 
 				if (boxToPickUp.name[0] == 'C')
@@ -161,7 +171,7 @@ public class CharacterControl : MonoBehaviour
 			}
 		}
 
-		// box check ends here
+		// box check ENDS here
 
 
 		// mouse look character using raycast
@@ -209,9 +219,14 @@ public class CharacterControl : MonoBehaviour
 		if (direction.magnitude >= 0.1f && onground)
 		{
 			rb.AddForce(direction * speed, ForceMode.Force);
+			animator.SetBool("isWalking", true);			
 		}
 		else if(!onground){
 			rb.AddForce(direction * speed / 10, ForceMode.Force);
+		}
+		else
+		{
+			animator.SetBool("isWalking", false);
 		}
 
 	}
@@ -222,24 +237,10 @@ public class CharacterControl : MonoBehaviour
 		{
 			rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 			PlayChoosenSound(jumpSound);
+			animator.SetBool("isJumping", true);
 		}
 	}
 
-	private void OnGroundCheck(Ray groundCheckRay)
-	{
-		RaycastHit checkGround;
-
-		if (Physics.Raycast(groundCheckRay, out checkGround, .9f))
-		{
-			onground = true;
-			// ongroundText.text = "grounded";
-		}
-		else
-		{
-			onground = false;
-			// ongroundText.text = "air";
-		}
-	}
 
 	public void PlayChoosenSound(AudioClip clipToPlay)
 	{

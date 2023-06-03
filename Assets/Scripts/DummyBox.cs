@@ -51,7 +51,10 @@ public class DummyBox : MonoBehaviour
 
 	private void DamageToBox()
 	{
-		vulnerability = true;
+		if (pickedUp && !vulnerability)
+		{
+			vulnerability = true;
+		}
 	}
 
 	public void PlayChoosenSound(AudioClip clipToPlay)
