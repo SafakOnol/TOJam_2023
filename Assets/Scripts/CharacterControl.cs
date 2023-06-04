@@ -45,7 +45,8 @@ public class CharacterControl : MonoBehaviour
 	void Update()
     {
 		// Check onground with raycast variables
-		Vector3 rayStartPos = AnimationPosition.transform.position - offsetRayPos;
+		// Vector3 rayStartPos = AnimationPosition.transform.position - offsetRayPos;		// Animation postion
+		Vector3 rayStartPos = transform.position - offsetRayPos;		// Player position
 		Ray groundCheckRay = new Ray(rayStartPos, -transform.up);
 
 		RaycastHit checkGround;
@@ -134,6 +135,8 @@ public class CharacterControl : MonoBehaviour
 						boxToPickUp.transform.position = boxHoldPoint.position;
 
 						boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
+						animator.SetBool("isPickedUp", true);											// Pick up animation
 					}
 				}
 
@@ -149,21 +152,21 @@ public class CharacterControl : MonoBehaviour
 			{
 				pickUp = false;
 
-				PlayChoosenSound(boxDropped);              // plays pick up sound each time player drops a box
+				PlayChoosenSound(boxDropped);				// plays pick up sound each time player drops a box
 
-				if (boxToPickUp.name[0] == 'C')
+				if (boxToPickUp.name[0] == 'C')             // drops if cargobox
 				{
 					boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
 					boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
                     UI_PickUp.StopDisplay(PickUpItems.CARGOBOX, gameObject);
                 }
-				else if (boxToPickUp.name[0] == 'D')
+				else if (boxToPickUp.name[0] == 'D')        // drops if cargobox
 				{
 					boxToPickUp.GetComponent<DummyBox>().pickedUp = true;
 					boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
                     UI_PickUp.StopDisplay(PickUpItems.DUMMYBOX, gameObject);
                 }
-				else
+				else                                        // drops if valuable box
 				{
 					boxToPickUp.GetComponent<ValuablesBox>().pickedUp = false;
 					boxToPickUp.GetComponent<ValuablesBox>().vulnerability = false;
@@ -173,7 +176,9 @@ public class CharacterControl : MonoBehaviour
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
 				boxToPickUp.transform.parent = null;
 				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+				boxToPickUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;    // Freezes the rotation of holding box 
+
+				animator.SetBool("isPickedUp", false);														// Drop animation code
 			}
 		}
 
