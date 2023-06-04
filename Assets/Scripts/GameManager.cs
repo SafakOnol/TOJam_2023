@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
             case GameState.Win:
                 // run win screen
                 OnState_Win?.Invoke();
+                LoadScene("MenuScene");
                 break;
             case GameState.GameOver:
                 // run game over screen
