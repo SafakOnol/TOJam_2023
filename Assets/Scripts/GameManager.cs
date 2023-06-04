@@ -133,9 +133,9 @@ public class GameManager : MonoBehaviour
             case GameState.Win:
                 // run win screen
                 OnState_Win?.Invoke();
-                LoadScene("MenuScene");
                 PopUpTexts.DisplayPopUp(PopUps.WIN, gameObject);
-                break;
+                Invoke("WinConditionLoadManager", 6);
+				break;
             case GameState.GameOver:
                 // run game over screen
                 OnState_GameOver?.Invoke();
@@ -183,10 +183,15 @@ public class GameManager : MonoBehaviour
         // TODO: set state ...
     }
 
-    //public void CountCollectible()
-    //{
-    //    //throw new NotImplementedException();
-    //    boxCollected++;
-    //    Debug.Log(boxCollected);
-    //}
+	//public void CountCollectible()
+	//{
+	//    //throw new NotImplementedException();
+	//    boxCollected++;
+	//    Debug.Log(boxCollected);
+	//}
+
+	public void WinConditionLoadManager()
+	{
+        LoadScene("MenuScene");
+	}
 }

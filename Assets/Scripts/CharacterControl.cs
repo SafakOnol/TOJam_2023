@@ -209,14 +209,14 @@ public class CharacterControl : MonoBehaviour
 		}
 
 		// Run code
-		if (Input.GetKeyDown(KeyCode.LeftShift))
+/*		if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
 			speed = 500 * 1.5f;
 		}
 		if (Input.GetKeyUp(KeyCode.LeftShift))
 		{
 			speed = 500;
-		}
+		}*/
 
 	}
 
