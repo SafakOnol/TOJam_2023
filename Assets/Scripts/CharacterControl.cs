@@ -101,19 +101,22 @@ public class CharacterControl : MonoBehaviour
 
 						if (boxToPickUp.name[0] == 'C')
 						{
-							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;       // this doesnt work for valuebox - fix it
-							boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);
-						}
+							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;
+                            boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2); // this doesnt work for valuebox - fix it
+                            UI_PickUp.DisplayPickUpBox(PickUpItems.CARGOBOX, gameObject);
+                        }
 						else if (boxToPickUp.name[0] == 'D')
 						{
 							boxToPickUp.GetComponent<DummyBox>().pickedUp = true;
-							boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
-						}
+                            boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
+                            UI_PickUp.DisplayPickUpBox(PickUpItems.DUMMYBOX, gameObject);
+                        }
 						else
 						{
 							boxToPickUp.GetComponent<ValuablesBox>().pickedUp = true;
-							boxToPickUp.GetComponent<ValuablesBox>().Invoke("DamageToBox", 2);
-						}
+                            boxToPickUp.GetComponent<ValuablesBox>().Invoke("DamageToBox", 2);
+                            UI_PickUp.DisplayPickUpBox(PickUpItems.VALUABLESBOX, gameObject);
+                        }
 					
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
 						// change position of the box here to hold point						
@@ -140,18 +143,21 @@ public class CharacterControl : MonoBehaviour
 
 				if (boxToPickUp.name[0] == 'C')
 				{
-					boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
+                    UI_PickUp.StopDisplay(PickUpItems.CARGOBOX, gameObject);
+                    boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
 					boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
 				}
 				else if (boxToPickUp.name[0] == 'D')
 				{
-					boxToPickUp.GetComponent<DummyBox>().pickedUp = true;
-					boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
+                    UI_PickUp.StopDisplay(PickUpItems.DUMMYBOX, gameObject);
+                    boxToPickUp.GetComponent<DummyBox>().pickedUp = true;
+                    boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
 				}
 				else
 				{
-					boxToPickUp.GetComponent<ValuablesBox>().pickedUp = false;
-					boxToPickUp.GetComponent<ValuablesBox>().vulnerability = false;
+                    UI_PickUp.StopDisplay(PickUpItems.VALUABLESBOX, gameObject);
+                    boxToPickUp.GetComponent<ValuablesBox>().pickedUp = false;
+                    boxToPickUp.GetComponent<ValuablesBox>().vulnerability = false;
 				}
 
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;

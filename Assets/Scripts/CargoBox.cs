@@ -27,16 +27,17 @@ public class CargoBox : MonoBehaviour, ICollectible
         {
             //throw new System.NotImplementedException();
             Debug.Log("Box Secured!");
-            //Destroy(gameObject);
+            
             // FreezeComponent();
             IsSecured = true;
             OnCargoBoxSecured?.Invoke();
-            FunctionTimer.Create(DestoyAfterCollected, 5f, "DestoyAfterCollected");
+            FreezeComponent();
+            //FunctionTimer.Create(DestroyAfterCollected, 5f, "DestoyAfterCollected");
+            Destroy(gameObject);
         }
-        
-    }
 
-    public void DestoyAfterCollected()
+    }
+    public void DestroyAfterCollected()
     {
         Destroy(gameObject);
     }
@@ -61,7 +62,7 @@ public class CargoBox : MonoBehaviour, ICollectible
 
 	private void OnCollisionEnter(UnityEngine.Collision collision)
     {
-        UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
+        //UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
         if (pickedUp && vulnerability)
         {
             damageCounter++;
@@ -97,9 +98,6 @@ public class CargoBox : MonoBehaviour, ICollectible
 		soundBox.PlayOneShot(clipToPlay, .8f);
 	}
 
-    public void DestroyAfterCollected()
-    {
-        throw new NotImplementedException();
-    }
+
 }
 
