@@ -45,7 +45,8 @@ public class CharacterControl : MonoBehaviour
 	void Update()
     {
 		// Check onground with raycast variables
-		Vector3 rayStartPos = AnimationPosition.transform.position - offsetRayPos;
+		// Vector3 rayStartPos = AnimationPosition.transform.position - offsetRayPos;		// Animation postion
+		Vector3 rayStartPos = transform.position - offsetRayPos;		// Player position
 		Ray groundCheckRay = new Ray(rayStartPos, -transform.up);
 
 		RaycastHit checkGround;
