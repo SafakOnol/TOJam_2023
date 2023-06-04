@@ -49,7 +49,10 @@ public class GameManager : MonoBehaviour
         }
 
         soundManager = gameObject.GetComponent<SoundManager>();
+
+        // ---- INITIAL GAME STATE IS HERE! ---- // 
         SetGameState(GameState.Intro);
+        // ---- INITIAL GAME STATE IS HERE! ---- // 
     }
 
     private void OnEnable()
@@ -104,18 +107,21 @@ public class GameManager : MonoBehaviour
                 // Camera work
                 // 
                 OnState_Intro?.Invoke();
+                PopUpTexts.DisplayPopUp(PopUps.INTRO, gameObject);
                 break;
             case GameState.Level01:
                 Debug.Log("Current Game State: " + CurrentGameState);
                 // set main objective countdown timer
                 // game functions
                 OnState_Level01?.Invoke();
+                PopUpTexts.DisplayPopUp(PopUps.OBJECTIVE1, gameObject);
                 break;
             case GameState.Level01_Special:
                 Debug.Log("Current Game State: " + CurrentGameState);
                 // set special objective countdown timer
                 // game functions
                 OnState_Level01_Special?.Invoke();
+                //PopUpTexts.DisplayPopUp(PopUps.OBJECTIVE2, gameObject);
                 break;
             case GameState.Level01_Post:
                 // camera movement
@@ -170,6 +176,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Special Objective Completed!");
         SetGameState(GameState.Win);
+
         // TODO: set state ...
     }
 

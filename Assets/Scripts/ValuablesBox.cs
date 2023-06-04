@@ -24,15 +24,22 @@ public class ValuablesBox : MonoBehaviour, ICollectible
         {
             //throw new System.NotImplementedException();
             Debug.Log("Valuables Box Secured!");
-            //Destroy(gameObject);
+            
             // FreezeComponent();
             IsSecured = true;
-            OnValuablesBoxCollected?.Invoke();            
+            OnValuablesBoxCollected?.Invoke();
+            //FunctionTimer.Create(DestroyAfterCollected, 5f, "DestoyAfterCollected");
+            //Destroy(gameObject);
         }
-                
+
     }
 
-	public void FreezeComponent()
+    public void DestroyAfterCollected()
+    {
+        Destroy(gameObject);
+    }
+
+    public void FreezeComponent()
 	{
 		// Freeze the position of the Rigidbody
 		if (TryGetComponent<Rigidbody>(out rb))
@@ -52,7 +59,7 @@ public class ValuablesBox : MonoBehaviour, ICollectible
 
 	private void OnCollisionEnter(UnityEngine.Collision collision)
 	{
-		UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
+		//UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
 		if (pickedUp && vulnerability)
 		{
 			damageCounter++;

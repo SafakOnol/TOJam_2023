@@ -21,10 +21,10 @@ public class TrainMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        MoveTrain();
+        MoveTrain1();
     }
 
-    void MoveTrain()
+    void MoveTrain1()
     {
         if (!IsLoading) 
         {
@@ -46,6 +46,5 @@ public class TrainMovement : MonoBehaviour
             }
         }
         
-
     }
 }

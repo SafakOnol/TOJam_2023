@@ -23,8 +23,8 @@ public class CharacterControl : MonoBehaviour
 	public AudioSource soundBox;
 	public AudioClip jumpSound, boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
 
-	public bool	onground = false,
-					pickUp = false;
+	public bool onground = false,
+				pickUp = false;
 
 
 	// Debugging variables
@@ -113,17 +113,20 @@ public class CharacterControl : MonoBehaviour
 						{
 							boxToPickUp.GetComponent<CargoBox>().pickedUp = true;       
 							boxToPickUp.GetComponent<CargoBox>().Invoke("DamageToBox", 2);
-						}
+                            UI_PickUp.DisplayPickUpBox(PickUpItems.CARGOBOX, gameObject);
+                        }
 						else if (boxToPickUp.name[0] == 'D')
 						{
 							boxToPickUp.GetComponent<DummyBox>().pickedUp = true;
 							boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
-						}
+                            UI_PickUp.DisplayPickUpBox(PickUpItems.DUMMYBOX, gameObject);
+                        }
 						else
 						{
 							boxToPickUp.GetComponent<ValuablesBox>().pickedUp = true;
 							boxToPickUp.GetComponent<ValuablesBox>().Invoke("DamageToBox", 2);
-						}
+                            UI_PickUp.DisplayPickUpBox(PickUpItems.VALUABLESBOX, gameObject);
+                        }
 					
 						boxToPickUp.GetComponent<Rigidbody>().useGravity = false;
 						// change position of the box here to hold point						
@@ -152,17 +155,20 @@ public class CharacterControl : MonoBehaviour
 				{
 					boxToPickUp.GetComponent<CargoBox>().pickedUp = false;
 					boxToPickUp.GetComponent<CargoBox>().vulnerability = false;
-				}
+                    UI_PickUp.StopDisplay(PickUpItems.CARGOBOX, gameObject);
+                }
 				else if (boxToPickUp.name[0] == 'D')
 				{
 					boxToPickUp.GetComponent<DummyBox>().pickedUp = true;
 					boxToPickUp.GetComponent<DummyBox>().Invoke("DamageToBox", 2);
-				}
+                    UI_PickUp.StopDisplay(PickUpItems.DUMMYBOX, gameObject);
+                }
 				else
 				{
 					boxToPickUp.GetComponent<ValuablesBox>().pickedUp = false;
 					boxToPickUp.GetComponent<ValuablesBox>().vulnerability = false;
-				}
+                    UI_PickUp.StopDisplay(PickUpItems.VALUABLESBOX, gameObject);
+                }
 
 				boxToPickUp.GetComponent<Rigidbody>().useGravity = true;
 				boxToPickUp.transform.parent = null;
@@ -212,22 +218,23 @@ public class CharacterControl : MonoBehaviour
 	private void FixedUpdate()
 	{
 		// Controls
-		float horizontal = Input.GetAxisRaw("Horizontal");
-		float vertical = Input.GetAxisRaw("Vertical");
-		Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-		if (direction.magnitude >= 0.1f && onground)
-		{
-			rb.AddForce(direction * speed, ForceMode.Force);
-			animator.SetBool("isWalking", true);			
-		}
-		else if(!onground){
-			rb.AddForce(direction * speed / 10, ForceMode.Force);
-		}
-		else
-		{
-			animator.SetBool("isWalking", false);
-		}
+        if (direction.magnitude >= 0.1f && onground)
+        {
+            rb.AddForce(direction * speed, ForceMode.Force);
+            animator.SetBool("isWalking", true);
+        }
+        else if (!onground)
+        {
+            rb.AddForce(direction * speed / 10, ForceMode.Force);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+        }	
 
 	}
 
