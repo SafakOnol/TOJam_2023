@@ -73,7 +73,8 @@ public class ValuablesBox : MonoBehaviour, ICollectible
 				case 4:
 					playerGameobject.gameObject.GetComponent<CharacterControl>().PlayChoosenSound(playerGameobject.GetComponent<CharacterControl>().boxDestroyed);
 					playerGameobject.GetComponent<CharacterControl>().pickUp = false;
-					Destroy(gameObject);
+                    UI_PickUp.StopDisplay(PickUpItems.VALUABLESBOX, gameObject);
+                    Destroy(gameObject);
 					break;
 			}
 		}

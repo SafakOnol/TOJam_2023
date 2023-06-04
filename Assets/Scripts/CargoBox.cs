@@ -78,7 +78,8 @@ public class CargoBox : MonoBehaviour, ICollectible
                 case 6:
                     playerGameobject.gameObject.GetComponent<CharacterControl>().PlayChoosenSound(playerGameobject.GetComponent<CharacterControl>().boxDestroyed);
                     playerGameobject.GetComponent<CharacterControl>().pickUp = false;
-					Destroy(gameObject);
+                    UI_PickUp.StopDisplay(PickUpItems.CARGOBOX, gameObject);
+                    Destroy(gameObject);
                     break;
 			}
 
