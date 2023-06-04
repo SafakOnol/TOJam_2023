@@ -107,14 +107,14 @@ public class GameManager : MonoBehaviour
                 // Camera work
                 // 
                 OnState_Intro?.Invoke();
-                //PopUpTexts.DisplayPopUp(PopUps.INTRO, gameObject);
+                PopUpTexts.DisplayPopUp(PopUps.INTRO, gameObject);
                 break;
             case GameState.Level01:
                 Debug.Log("Current Game State: " + CurrentGameState);
                 // set main objective countdown timer
                 // game functions
                 OnState_Level01?.Invoke();
-                //PopUpTexts.DisplayPopUp(PopUps.OBJECTIVE1, gameObject);
+                PopUpTexts.DisplayPopUp(PopUps.OBJECTIVE1, gameObject);
                 break;
             case GameState.Level01_Special:
                 Debug.Log("Current Game State: " + CurrentGameState);

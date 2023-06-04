@@ -19,8 +19,6 @@ public class CargoBox : MonoBehaviour, ICollectible
 	public bool vulnerability = false;
     public bool IsSecured = false;
 
-    public AudioSource soundBox;
-	[SerializeField] public AudioClip boxPickedUp, boxSecured, boxDropped, boxDamaged, boxDestroyed;
 	public void Collect()
     {
         if(!IsSecured)
@@ -71,20 +69,19 @@ public class CargoBox : MonoBehaviour, ICollectible
             {
                 case 2:
 					condition = "Cracked";
-                    playerGameobject.GetComponent<CharacterControl>().PlayChoosenSound(boxDamaged);
-					break;
+                    playerGameobject.gameObject.GetComponent<CharacterControl>().PlayChoosenSound(playerGameobject.GetComponent<CharacterControl>().boxDamaged);
+                    break;
                 case 4:
 					condition = "Damaged";
-					playerGameobject.GetComponent<CharacterControl>().PlayChoosenSound(boxDamaged);
-					break;
+                    playerGameobject.gameObject.GetComponent<CharacterControl>().PlayChoosenSound(playerGameobject.GetComponent<CharacterControl>().boxDamaged);
+                    break;
                 case 6:
-					playerGameobject.GetComponent<CharacterControl>().PlayChoosenSound(boxDestroyed);
-					playerGameobject.GetComponent<CharacterControl>().pickUp = false;
+                    playerGameobject.gameObject.GetComponent<CharacterControl>().PlayChoosenSound(playerGameobject.GetComponent<CharacterControl>().boxDestroyed);
+                    playerGameobject.GetComponent<CharacterControl>().pickUp = false;
 					Destroy(gameObject);
                     break;
 			}
 
-            soundBox.PlayOneShot(boxDamaged,0.4f);
         }
     }
 
@@ -96,10 +93,7 @@ public class CargoBox : MonoBehaviour, ICollectible
 		}
 	}
 
-	public void PlayChoosenSound(AudioClip clipToPlay)
-    {
-		soundBox.PlayOneShot(clipToPlay, .8f);
-	}
+	
 
 
 }

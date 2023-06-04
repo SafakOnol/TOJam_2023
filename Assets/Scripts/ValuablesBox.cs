@@ -29,7 +29,7 @@ public class ValuablesBox : MonoBehaviour, ICollectible
             IsSecured = true;
             OnValuablesBoxCollected?.Invoke();
             //FunctionTimer.Create(DestroyAfterCollected, 5f, "DestoyAfterCollected");
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
     }
