@@ -23,7 +23,7 @@ public class DummyBox : MonoBehaviour
 
 	private void OnCollisionEnter(UnityEngine.Collision collision)
 	{
-		UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
+		//UnityEngine.Debug.Log("collied obejct is " + collision.transform.tag);
 		if (pickedUp && vulnerability)
 		{
 			damageCounter++;

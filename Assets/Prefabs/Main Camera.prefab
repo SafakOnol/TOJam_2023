@@ -101,7 +101,7 @@ MonoBehaviour:
   PlayersTransform: {fileID: 0}
   smoothTime: 0.2
   angleToChangeCamRotation: 50
-  minZ: -16
+  minZ: -25
   maxZ: 100
   _offsetX: 0
   _offsetY: 8

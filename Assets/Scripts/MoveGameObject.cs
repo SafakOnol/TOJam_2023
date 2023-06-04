@@ -25,21 +25,21 @@ public class MoveGameObject : MonoBehaviour
         Move();
     }
 
-    void Patrol()
-    {
-        if (transform.position == TargetPosition.position)
-        {
-            TargetPositionIndex++;
-            if (TargetPositionIndex >= Positions.Length) { TargetPositionIndex = 0; }
-            TargetPosition = Positions[TargetPositionIndex];
-        }
+    //void Patrol()
+    //{
+    //    if (transform.position == TargetPosition.position)
+    //    {
+    //        TargetPositionIndex++;
+    //        if (TargetPositionIndex >= Positions.Length) { TargetPositionIndex = 0; }
+    //        TargetPosition = Positions[TargetPositionIndex];
+    //    }
 
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, TargetPosition.position, objectSpeed * Time.deltaTime);
-        }
+    //    else
+    //    {
+    //        transform.position = Vector3.MoveTowards(transform.position, TargetPosition.position, objectSpeed * Time.deltaTime);
+    //    }
 
-    }
+    //}
 
     void Move()
     {
