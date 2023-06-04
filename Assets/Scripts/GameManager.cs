@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
                 // set special objective countdown timer
                 // game functions
                 OnState_Level01_Special?.Invoke();
-                //PopUpTexts.DisplayPopUp(PopUps.OBJECTIVE2, gameObject);
+                PopUpTexts.DisplayPopUp(PopUps.OBJECTIVE2, gameObject);
                 break;
             case GameState.Level01_Post:
                 // camera movement
@@ -134,10 +134,12 @@ public class GameManager : MonoBehaviour
                 // run win screen
                 OnState_Win?.Invoke();
                 LoadScene("MenuScene");
+                PopUpTexts.DisplayPopUp(PopUps.WIN, gameObject);
                 break;
             case GameState.GameOver:
                 // run game over screen
                 OnState_GameOver?.Invoke();
+                PopUpTexts.DisplayPopUp(PopUps.GAMEOVER, gameObject);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);

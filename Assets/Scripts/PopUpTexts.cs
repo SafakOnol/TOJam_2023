@@ -34,27 +34,32 @@ public class PopUpTexts : MonoBehaviour
         {
             case PopUps.INTRO:
                 intro.SetActive(true);
-                FunctionTimer.Create(StopIntroPopUp, 5f, "StopDisplayPopUp");
+                //FunctionTimer.Create(StopIntroPopUp, 5f, "StopDisplayPopUp");
                 break;
             case PopUps.OBJECTIVE1:
                 objective1.SetActive(true);
-                FunctionTimer.Create(StopObjective1PopUp, 5f, "StopObjective1PopUp");
+                //FunctionTimer.Create(StopObjective1PopUp, 5f, "StopObjective1PopUp");
                 break;
             case PopUps.OBJECTIVE2:
                 objective2.SetActive(true);
-                FunctionTimer.Create(StopObjective2PopUp, 5f, "StopObjective2PopUp");
+                //FunctionTimer.Create(StopObjective2PopUp, 5f, "StopObjective2PopUp");
                 break;
             case PopUps.WIN:
                 win.SetActive(true);
-                FunctionTimer.Create(StopObjective2PopUp, 5f, "WIN");
+                //FunctionTimer.Create(StopObjective2PopUp, 5f, "WIN");
                 break;
             case PopUps.GAMEOVER:
                 gameover.SetActive(true);
-                FunctionTimer.Create(StopObjective2PopUp, 5f, "GAMEOVER");
+                //FunctionTimer.Create(StopObjective2PopUp, 5f, "GAMEOVER");
                 break;
             default: break;
         }
         //displayingCanvas.SetActive(false);
+    }
+
+    public static void DelayedStopIntroPopUp()
+    {
+        FunctionTimer.Create(StopIntroPopUp, 5f, "StopIntroPopUp");
     }
 
     public static void StopIntroPopUp()
