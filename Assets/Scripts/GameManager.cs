@@ -38,20 +38,23 @@ public class GameManager : MonoBehaviour
    
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //if (Instance == null)
+        //{
+        //    Instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
 
         soundManager = gameObject.GetComponent<SoundManager>();
 
         // ---- INITIAL GAME STATE IS HERE! ---- // 
-        SetGameState(GameState.Intro);
+        SetGameState(GameState.NullState);
         // ---- INITIAL GAME STATE IS HERE! ---- // 
     }
 
@@ -60,6 +63,7 @@ public class GameManager : MonoBehaviour
         TrainMovement.OnTrainArrived += TrainMovement_OnTrainArrived;
         CollectorManager.OnAllCargoBoxesCollected += CollectorManager_OnAllCargoBoxesCollected;
         CollectorManager.OnAllValuablesBoxCollected += CollectorManager_OnAllValuablesBoxCollected;
+        Timer.OnTimeIsOver += Timer_OnTimeIsOver;
     }
 
 
@@ -90,7 +94,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.NullState:
                 // 
-
+                Debug.Log("Current Game State: " + CurrentGameState);
                 break;
             case GameState.MainMenu:
                 // load main menu
@@ -131,12 +135,14 @@ public class GameManager : MonoBehaviour
                 OnState_Level01_Post?.Invoke();
                 break;
             case GameState.Win:
+                Debug.Log("Current Game State: " + CurrentGameState);
                 // run win screen
                 OnState_Win?.Invoke();
                 PopUpTexts.DisplayPopUp(PopUps.WIN, gameObject);
-                Invoke("WinConditionLoadManager", 6);
+                //Invoke("WinConditionLoadManager", 6);
 				break;
             case GameState.GameOver:
+                Debug.Log("Current Game State: " + CurrentGameState);
                 // run game over screen
                 OnState_GameOver?.Invoke();
                 PopUpTexts.DisplayPopUp(PopUps.GAMEOVER, gameObject);
@@ -194,4 +200,8 @@ public class GameManager : MonoBehaviour
 	{
         LoadScene("MenuScene");
 	}
+    private void Timer_OnTimeIsOver()
+    {
+        SetGameState(GameState.GameOver);
+    }
 }

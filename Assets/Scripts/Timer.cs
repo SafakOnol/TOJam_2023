@@ -2,27 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Timer : MonoBehaviour
 {
     private float countdownValue;
-    [SerializeField] private float timerValue;
+    [SerializeField] private float timerValueLevel1;
+    [SerializeField] private float timerValueLevel1Special;
     public TextMeshProUGUI timerText;
     private bool timerRunning = false;
+    public static event Action OnTimeIsOver;
 
     private void Awake()
     {
-        countdownValue = timerValue;
+        countdownValue = timerValueLevel1;
     }
 
     private void OnEnable()
     {
         GameManager.OnState_Level01 += GameManager_OnState_Level01;
+        GameManager.OnState_Level01_Special += GameManager_OnState_Level01_Special;
+        GameManager.OnState_Win += GameManager_OnState_Win;
     }
+
 
     private void OnDisable()
     {
         GameManager.OnState_Level01 -= GameManager_OnState_Level01;
+        GameManager.OnState_Level01_Special -= GameManager_OnState_Level01_Special;
     }
 
 
@@ -30,6 +37,15 @@ public class Timer : MonoBehaviour
     {
         //throw new System.NotImplementedException();
         timerRunning = true;
+    }
+    private void GameManager_OnState_Level01_Special()
+    {
+        countdownValue = timerValueLevel1Special;
+        timerRunning = true;
+    }
+    private void GameManager_OnState_Win()
+    {
+        timerRunning = false;
     }
 
     // Update is called once per frame
@@ -53,6 +69,7 @@ public class Timer : MonoBehaviour
         if (countdownDisplay < 0) 
         {
             countdownDisplay = 0;
+            OnTimeIsOver?.Invoke();
         }
         else if (countdownDisplay > 0)
         {

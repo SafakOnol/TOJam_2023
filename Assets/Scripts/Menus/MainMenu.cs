@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    public void Start()
+    {
+        FindObjectOfType<GameManager>().SetGameState(GameState.MainMenu);
+    }
     public void OnClick_StartGame()
     {
-        gameObject.GetComponent<GameManager>().LoadScene("GameScene01");
+        FindObjectOfType<GameManager>().LoadScene("GameScene01");
         //Debug.Log("GameScene01!");
     }
 

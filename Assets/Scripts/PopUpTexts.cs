@@ -15,7 +15,7 @@ public class PopUpTexts : MonoBehaviour
 
     public static void Init()
     {
-        Debug.Log("popuptext Init called!");
+        //Debug.Log("popuptext Init called!");
         GameObject canvas = GameObject.Find("PopUpNotifications");
         intro = canvas.transform.Find("Intro").gameObject;
         objective1 = canvas.transform.Find("Objective1").gameObject;
@@ -37,6 +37,7 @@ public class PopUpTexts : MonoBehaviour
                 //FunctionTimer.Create(StopIntroPopUp, 5f, "StopDisplayPopUp");
                 break;
             case PopUps.OBJECTIVE1:
+                intro.SetActive(false);
                 objective1.SetActive(true);
                 //FunctionTimer.Create(StopObjective1PopUp, 5f, "StopObjective1PopUp");
                 break;
@@ -45,11 +46,18 @@ public class PopUpTexts : MonoBehaviour
                 //FunctionTimer.Create(StopObjective2PopUp, 5f, "StopObjective2PopUp");
                 break;
             case PopUps.WIN:
-                win.SetActive(true);
+                if (gameover == null) 
+                {
+                    win.SetActive(true);
+                }                
                 //FunctionTimer.Create(StopObjective2PopUp, 5f, "WIN");
                 break;
             case PopUps.GAMEOVER:
-                gameover.SetActive(true);
+                if (win == null)
+                {
+                    gameover.SetActive(true);
+                }
+                
                 //FunctionTimer.Create(StopObjective2PopUp, 5f, "GAMEOVER");
                 break;
             default: break;
@@ -84,14 +92,17 @@ public class PopUpTexts : MonoBehaviour
     {
         StopDisplayPopUp(PopUps.WIN, win);
         win.SetActive(false);
-        MenuManager.mainMenu.SetActive(true);
+        //MenuManager.mainMenu.SetActive(true);
+        //gameObject.GetComponent<GameManager>().LoadScene("GameScene01");
+        FindObjectOfType<GameManager>().LoadScene("GameSceneManager");
     }
 
     public static void StopGameOverPopUp()
     {
         StopDisplayPopUp(PopUps.GAMEOVER, gameover);
         gameover.SetActive(false);
-        MenuManager.mainMenu.SetActive(true);
+        //MenuManager.mainMenu.SetActive(true);
+        FindObjectOfType<GameManager>().LoadScene("GameSceneManager");
     }
 
     public static void StopDisplayPopUp(PopUps aPopUpItem, GameObject displayingCanvas)

@@ -8,6 +8,7 @@ public class GameScene01 : MonoBehaviour
     void Start()
     {
         Debug.Log("Game Scene 01 is active!");
+        FindObjectOfType<GameManager>().SetGameState(GameState.Intro);
     }
 
     // Update is called once per frame
